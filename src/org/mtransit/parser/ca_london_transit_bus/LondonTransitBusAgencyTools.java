@@ -407,10 +407,10 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mRoute.getId() == 27l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignDirection(MDirectionType.WEST);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignDirection(MDirectionType.EAST);
 				return;
 			}
 		} else if (mRoute.getId() == 28l) {
@@ -540,6 +540,8 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
+		tripHeadsign = CleanUtils.CLEAN_AT.matcher(tripHeadsign).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
+		tripHeadsign = CleanUtils.CLEAN_AND.matcher(tripHeadsign).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT);
 		tripHeadsign = CleanUtils.cleanNumbers(tripHeadsign);
 		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
 		tripHeadsign = CleanUtils.cleanStreetTypesFRCA(tripHeadsign);
