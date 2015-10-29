@@ -22,7 +22,6 @@ import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.gtfs.data.GTripStop;
 import org.mtransit.parser.mt.data.MAgency;
-import org.mtransit.parser.mt.data.MDirectionType;
 import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
 import org.mtransit.parser.mt.data.MTripStop;
@@ -192,6 +191,105 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		return super.splitTripStop(mRoute, gTrip, gTripStop, splitTrips, routeGTFS);
 	}
 
+	private static final String AND = " & ";
+	private static final String AT = " @ ";
+	private static final String SLASH = " / ";
+	private static final String _ = " ";
+
+	private static final String UWO = "UWO";
+	private static final String INDUSTRIAL_SHORT = "Ind";
+
+	private static final String ADELAIDE = "Adelaide";
+	private static final String ALDERSBROOK = "Aldersbrook";
+	private static final String AIRPORT = "Airport";
+	private static final String ARGYLE_MALL = "Argyle Mall";
+	private static final String BARKER = "Barker";
+	private static final String BLACKACRES = "Blackacres";
+	private static final String BONAVENTURE = "Bonaventure";
+	private static final String BRIARHILL = "Briarhill";
+	private static final String BRIXHAM = "Brixham";
+	private static final String BYRON_BASELINE = "Byron Baseline";
+	private static final String CAPULET = "Capulet";
+	private static final String CHELTON = "Chelton";
+	private static final String COLONEL_TALBOT = "Colonel Talbot";
+	private static final String COMMISSIONERS = "Commissioners";
+	private static final String DALHOUSIE = "Dalhousie";
+	private static final String DARNLEY = "Darnley";
+	private static final String DEVERON = "Deveron";
+	private static final String DOWNTOWN = "Downtown";
+	private static final String FANSHAWE = "Fanshawe";
+	private static final String FANSHAWE_COLLEGE = FANSHAWE + " College";
+	private static final String FARRAH = "Farrah";
+	private static final String FIRESTONE = "Firestone";
+	private static final String GORE = "Gore";
+	private static final String GRENFELL = "Grenfell";
+	private static final String GRIFFITH = "Griffith";
+	private static final String HIGHBURY = "Highbury";
+	private static final String HURON = "Huron";
+	private static final String HYDE_PARK = "Hyde Pk";
+	private static final String INDUSTRIAL_PARK = INDUSTRIAL_SHORT + " Pk";
+	private static final String KIPPS = "Kipps";
+	private static final String KIPPS_LANE = KIPPS + " Ln";
+	private static final String MASONVILLE = "Masonville";
+	private static final String MASONVILLE_MALL = MASONVILLE + " Mall";
+	private static final String MASONVILLE_PLACE = MASONVILLE + " Pl";
+	private static final String MCLEAN = "Mclean";
+	private static final String MEADOWGATE = "Meadowgate";
+	private static final String NORTHRIDGE = "Northridge";
+	private static final String OAKVILLE = "Oakville";
+	private static final String OUTER = "Outer";
+	private static final String OXFORD = "Oxford";
+	private static final String PARKWOOD_HOSPITAL = "Parkwood Hosp";
+	private static final String PORTSMOUTH = "Portsmouth";
+	private static final String POWER_CTR = "Power Ctr";
+	private static final String PROUDFOOT = "Proudfoot";
+	private static final String REARDON = "Reardon";
+	private static final String RIVERSIDE = "Riverside";
+	private static final String SOVEREIGN = "Sovereign";
+	private static final String STONEY_CREEK = "Stoney Crk";
+	private static final String VICTORIA_HOSPITAL = "Victoria Hosp";
+	private static final String UNIV_WESTERN_ONTARIO = UWO; // "Univ Western Ontario";
+	private static final String WESTERN_UNIVERSITY = UWO; // "Western University";
+	private static final String WESTMOUNT_MALL = "Westmount Mall";
+	private static final String WEYMOUTH = "Weymouth";
+	private static final String WHARNCLIFFE = "Wharncliffe";
+	private static final String WHITE_OAKS_MALL = "White Oaks Mall";
+	private static final String WILTON_GROVE = "Wilton Grv";
+	private static final String WONDERLAND = "Wonderland";
+
+	private static final String AIRPORT_AND_INDUSTRIAL_AREA = AIRPORT + AND + INDUSTRIAL_SHORT; // + " area";
+	private static final String ALDERSBROOK_AT_BLACKACRES = ALDERSBROOK + AT + BLACKACRES;
+	private static final String BARKER_AT_HURON = BARKER + AT + HURON;
+	private static final String BYRON_BASELINE_AT_GRIFFITH = BYRON_BASELINE + AT + GRIFFITH;
+	private static final String CAPULET_AT_OXFORD = CAPULET + AT + OXFORD;
+	private static final String CHELTON_AT_REARDON = CHELTON + AT + REARDON;
+	private static final String COMMISSIONERS_AT_DEVERON = COMMISSIONERS + AT + DEVERON;
+	private static final String DALHOUSIE_AT_BRIXHAM = DALHOUSIE + AT + BRIXHAM;
+	private static final String DARNLEY_AT_MEADOWGATE = DARNLEY + AT + MEADOWGATE;
+	private static final String FANSHAWE_AT_MCLEAN = FANSHAWE + AT + MCLEAN;
+	private static final String FARRAH_AT_PROUDFOOT = FARRAH + AT + PROUDFOOT;
+	private static final String FIRESTONE_AT_GORE = FIRESTONE + AT + GORE;
+	private static final String GORE_AT_FIRESTONE = GORE + AT + FIRESTONE;
+	private static final String GRENFELL_NORTHRIDGE = GRENFELL + SLASH + NORTHRIDGE;
+	private static final String GRIFFITH_AT_BYRON_BASELINE = GRIFFITH + AT + BYRON_BASELINE;
+	private static final String HURON_AT_HIGHBURY = HURON + AT + HIGHBURY;
+	private static final String HYDE_PARK_POWER_CENTRE = HYDE_PARK + _ + POWER_CTR;
+	private static final String KIPPS_AT_ADELAIDE = KIPPS + AT + ADELAIDE;
+	private static final String KIPPS_LANE_AT_BRIARHILL = KIPPS_LANE + AT + BRIARHILL;
+	private static final String OAKVILLE_AT_HURON = OAKVILLE + AT + HURON;
+	private static final String OUTER_AT_COLONEL_TALBOT = OUTER + AT + COLONEL_TALBOT;
+	private static final String RIVERSIDE_AT_WHARNCLIFFE_ONLY = RIVERSIDE + AT + WHARNCLIFFE; // + " only";
+	private static final String WEYMOUTH_AT_PORTSMOUTH = WEYMOUTH + AT + PORTSMOUTH;
+	private static final String WILTON_GROVE_INDUSTRIAL_PARK = WILTON_GROVE + _ + INDUSTRIAL_PARK;
+	private static final String WONDERLAND_AT_OXFORD = WONDERLAND + AT + OXFORD;
+	private static final String WONDERLAND_OXFORD = WONDERLAND + SLASH + OXFORD;
+	private static final String WONDERLAND_POWER_CENTRE = WONDERLAND + _ + POWER_CTR;
+
+	private static final int LTC_EASTBOUND = 1;
+	private static final int LTC_NORTHBOUND = 2;
+	private static final int LTC_SOUTHBOUND = 3;
+	private static final int LTC_WESTBOUND = 4;
+
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
 		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
@@ -199,338 +297,338 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		}
 		if (mRoute.getId() == 1l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(COMMISSIONERS_AT_DEVERON, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(KIPPS_LANE_AT_BRIARHILL, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 2l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(BONAVENTURE, LTC_EASTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(WESTERN_UNIVERSITY, LTC_WESTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 3l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(GORE_AT_FIRESTONE, LTC_EASTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_WESTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 4l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(WHITE_OAKS_MALL, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(FANSHAWE_COLLEGE, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 5l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(GRIFFITH_AT_BYRON_BASELINE, LTC_WESTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_EASTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 6l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(WESTERN_UNIVERSITY, LTC_NORTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(PARKWOOD_HOSPITAL, LTC_SOUTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 7l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(ARGYLE_MALL, LTC_EASTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_WESTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 8l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(BYRON_BASELINE_AT_GRIFFITH, LTC_WESTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_EASTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 9l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(ALDERSBROOK_AT_BLACKACRES, LTC_WESTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_EASTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 10l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(MASONVILLE, LTC_NORTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(WHITE_OAKS_MALL, LTC_SOUTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 11l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(WESTMOUNT_MALL, LTC_WESTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_EASTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 12l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(WONDERLAND_POWER_CENTRE, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 13l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(WHITE_OAKS_MALL, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(GRENFELL_NORTHRIDGE, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 14l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(BARKER_AT_HURON, LTC_NORTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(WHITE_OAKS_MALL, LTC_SOUTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 15l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(WESTMOUNT_MALL, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 16l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(DARNLEY_AT_MEADOWGATE, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(MASONVILLE_MALL, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 17l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(FIRESTONE_AT_GORE, LTC_EASTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString("BYRON_BASELINE_AT_GRIFFITH", LTC_WESTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 18l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(RIVERSIDE_AT_WHARNCLIFFE_ONLY, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(WESTERN_UNIVERSITY, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 19l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(HYDE_PARK_POWER_CENTRE, LTC_WESTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_EASTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 20l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(FANSHAWE_COLLEGE, LTC_EASTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(CAPULET_AT_OXFORD, LTC_WESTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 21l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(OAKVILLE_AT_HURON, LTC_NORTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_SOUTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 22l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(ARGYLE_MALL, LTC_EASTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_WESTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 23l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(DALHOUSIE_AT_BRIXHAM, LTC_WESTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_EASTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 24l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(WESTMOUNT_MALL, LTC_WESTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(CHELTON_AT_REARDON, LTC_EASTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 25l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(FANSHAWE_AT_MCLEAN, LTC_NORTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(FANSHAWE_COLLEGE, LTC_SOUTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 26l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(WHITE_OAKS_MALL, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(DOWNTOWN, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 27l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(KIPPS_AT_ADELAIDE, LTC_WESTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(FANSHAWE_COLLEGE, LTC_EASTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 28l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(OUTER_AT_COLONEL_TALBOT, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(WESTMOUNT_MALL, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 29l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(CAPULET, LTC_NORTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(WONDERLAND_OXFORD, LTC_SOUTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 30l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(WILTON_GROVE_INDUSTRIAL_PARK, LTC_EASTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(WHITE_OAKS_MALL, LTC_WESTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 31l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(HYDE_PARK_POWER_CENTRE, LTC_WESTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(UNIV_WESTERN_ONTARIO, LTC_EASTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 32l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(HURON_AT_HIGHBURY, LTC_EASTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(WESTERN_UNIVERSITY, LTC_WESTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 33l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(FARRAH_AT_PROUDFOOT, LTC_WESTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(WESTERN_UNIVERSITY, LTC_EASTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 34l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(MASONVILLE_MALL, LTC_EASTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(WESTERN_UNIVERSITY, LTC_WESTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 35l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(WEYMOUTH_AT_PORTSMOUTH, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(ARGYLE_MALL, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 36l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(AIRPORT_AND_INDUSTRIAL_AREA, LTC_EASTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(FANSHAWE_COLLEGE, LTC_WESTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 37l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(SOVEREIGN, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(ARGYLE_MALL, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 38l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(STONEY_CREEK, LTC_NORTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(MASONVILLE_MALL, LTC_SOUTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 39l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(HYDE_PARK_POWER_CENTRE, LTC_WESTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(MASONVILLE_MALL, LTC_EASTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 90l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(WHITE_OAKS_MALL, LTC_SOUTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(MASONVILLE_PLACE, LTC_NORTHBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 91l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.EAST);
+				mTrip.setHeadsignString(FANSHAWE_COLLEGE, LTC_EASTBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.WEST);
+				mTrip.setHeadsignString(WONDERLAND_AT_OXFORD, LTC_WESTBOUND);
 				return;
 			}
 		} else if (mRoute.getId() == 92l) {
 			if (gTrip.getDirectionId() == 0) {
-				mTrip.setHeadsignDirection(MDirectionType.NORTH);
+				mTrip.setHeadsignString(MASONVILLE_PLACE, LTC_NORTHBOUND);
 				return;
 			} else if (gTrip.getDirectionId() == 1) {
-				mTrip.setHeadsignDirection(MDirectionType.SOUTH);
+				mTrip.setHeadsignString(VICTORIA_HOSPITAL, LTC_SOUTHBOUND);
 				return;
 			}
 		}
@@ -538,8 +636,23 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		System.exit(-1);
 	}
 
+	private static final Pattern AREA = Pattern.compile("((^|\\W){1}(area)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+
+	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W){1}(industrial)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String INDUSTRIAL_REPLACEMENT = "$2" + INDUSTRIAL_SHORT + "$4";
+
+	private static final Pattern ONLY = Pattern.compile("((^|\\W){1}(only)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+
+	private static final Pattern UNIVERSITY_OF_WESTERN_ONTARIO = Pattern.compile("((^|\\W){1}(univ western ontario|western university)(\\W|$){1})",
+			Pattern.CASE_INSENSITIVE);
+	private static final String UNIVERSITY_OF_WESTERN_ONTARIO_REPLACEMENT = "$2" + UWO + "$4";
+
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
+		tripHeadsign = AREA.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
+		tripHeadsign = INDUSTRIAL.matcher(tripHeadsign).replaceAll(INDUSTRIAL_REPLACEMENT);
+		tripHeadsign = ONLY.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
+		tripHeadsign = UNIVERSITY_OF_WESTERN_ONTARIO.matcher(tripHeadsign).replaceAll(UNIVERSITY_OF_WESTERN_ONTARIO_REPLACEMENT);
 		tripHeadsign = CleanUtils.CLEAN_AT.matcher(tripHeadsign).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
 		tripHeadsign = CleanUtils.CLEAN_AND.matcher(tripHeadsign).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT);
 		tripHeadsign = CleanUtils.cleanNumbers(tripHeadsign);
