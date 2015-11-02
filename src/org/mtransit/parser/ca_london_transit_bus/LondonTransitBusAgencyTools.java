@@ -684,4 +684,12 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		gStopName = CleanUtils.cleanStreetTypesFRCA(gStopName);
 		return CleanUtils.cleanLabel(gStopName);
 	}
+
+	@Override
+	public int getStopId(GStop gStop) {
+		if (StringUtils.isEmpty(gStop.getStopCode())) {
+			return 100000 + Integer.parseInt(gStop.getStopId());
+		}
+		return Integer.parseInt(gStop.getStopCode()); // use stop code as stop ID
+	}
 }
