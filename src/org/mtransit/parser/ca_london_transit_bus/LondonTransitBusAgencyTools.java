@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -84,6 +85,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		return Long.parseLong(gRoute.getRouteShortName()); // use route short name as route ID
 	}
 
+	@Override
 	public String getRouteShortName(GRoute gRoute) {
 		if (Utils.isDigitsOnly(gRoute.getRouteShortName())) {
 			return String.valueOf(Integer.parseInt(gRoute.getRouteShortName())); // remove leading 0
@@ -685,10 +687,18 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		return CleanUtils.cleanLabel(gStopName);
 	}
 
+	private static final Pattern DIGITS = Pattern.compile("[\\d]+");
+
 	@Override
 	public int getStopId(GStop gStop) {
 		if (StringUtils.isEmpty(gStop.getStopCode())) {
-			return 100000 + Integer.parseInt(gStop.getStopId());
+			if (Utils.isDigitsOnly(gStop.getStopId())) {
+				return 100000 + Integer.parseInt(gStop.getStopId());
+			}
+			Matcher matcher = DIGITS.matcher(gStop.getStopId());
+			if (matcher.find()) {
+				return 100000 + Integer.parseInt(matcher.group());
+			}
 		}
 		return Integer.parseInt(gStop.getStopCode()); // use stop code as stop ID
 	}
