@@ -633,6 +633,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(VICTORIA_HOSPITAL, LTC_SOUTHBOUND);
 				return;
 			}
+		} else if (mRoute.getId() == 400l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(FANSHAWE, LTC_NORTHBOUND);
+				return;
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(ARGYLE_MALL, LTC_SOUTHBOUND);
+				return;
+			}
 		}
 		System.out.printf("\n%s: Unexpected trip %s!\n", mRoute.getId(), gTrip);
 		System.exit(-1);
