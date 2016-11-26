@@ -156,6 +156,10 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		case 90: return "F5821F";
 		case 91: return "F5821F";
 		case 92: return "F5821F";
+		case 102: return "006468";
+		case 104: return "91278F";
+		case 106: return "868A5B";
+		case 400: return "0FAB4B";
 		// @formatter:on
 		}
 		System.out.printf("\nUnexpected route color %s!\n", gRoute);
@@ -237,6 +241,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String MASONVILLE_PLACE = MASONVILLE + " Pl";
 	private static final String MCLEAN = "Mclean";
 	private static final String MEADOWGATE = "Meadowgate";
+	private static final String NATURAL_SCIENCE = "Natural Science";
 	private static final String NORTHRIDGE = "Northridge";
 	private static final String OAKVILLE = "Oakville";
 	private static final String OUTER = "Outer";
@@ -246,6 +251,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String POWER_CTR = "Power Ctr";
 	private static final String PROUDFOOT = "Proudfoot";
 	private static final String REARDON = "Reardon";
+	private static final String RIDOUT_AND_GRAND = "Ridout & Grand";
 	private static final String RIVERSIDE = "Riverside";
 	private static final String SOVEREIGN = "Sovereign";
 	private static final String STONEY_CREEK = "Stoney Crk";
@@ -633,6 +639,30 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(VICTORIA_HOSPITAL, LTC_SOUTHBOUND);
 				return;
 			}
+		} else if (mRoute.getId() == 102l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(DOWNTOWN, LTC_SOUTHBOUND);
+				return;
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(NATURAL_SCIENCE, LTC_NORTHBOUND);
+				return;
+			}
+		} else if (mRoute.getId() == 104l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(FANSHAWE_COLLEGE, LTC_NORTHBOUND);
+				return;
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(RIDOUT_AND_GRAND, LTC_SOUTHBOUND);
+				return;
+			}
+		} else if (mRoute.getId() == 106l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(NATURAL_SCIENCE, LTC_NORTHBOUND);
+				return;
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(DOWNTOWN, LTC_SOUTHBOUND);
+				return;
+			}
 		} else if (mRoute.getId() == 400l) {
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(FANSHAWE, LTC_NORTHBOUND);
@@ -646,6 +676,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		System.exit(-1);
 	}
 
+	@Override
+	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
+		System.out.printf("\nUnexpected trips to merge %s & %s!\n", mTrip, mTripToMerge);
+		System.exit(-1);
+		return false;
+	}
+
+	private static final Pattern ENDS_WITH_VIA = Pattern.compile("(via.*$)", Pattern.CASE_INSENSITIVE);
 	private static final Pattern AREA = Pattern.compile("((^|\\W){1}(area)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W){1}(industrial)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
@@ -663,6 +701,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		tripHeadsign = INDUSTRIAL.matcher(tripHeadsign).replaceAll(INDUSTRIAL_REPLACEMENT);
 		tripHeadsign = ONLY.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = UNIVERSITY_OF_WESTERN_ONTARIO.matcher(tripHeadsign).replaceAll(UNIVERSITY_OF_WESTERN_ONTARIO_REPLACEMENT);
+		tripHeadsign = ENDS_WITH_VIA.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = CleanUtils.CLEAN_AT.matcher(tripHeadsign).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
 		tripHeadsign = CleanUtils.CLEAN_AND.matcher(tripHeadsign).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT);
 		tripHeadsign = CleanUtils.cleanNumbers(tripHeadsign);
@@ -673,7 +712,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern BOUNDS = Pattern.compile("(eb|wb|nb|sb|fs|ns)", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern ENDS_WITH_STOP_CODE = Pattern.compile("( \\- #[\\d]*$)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern ENDS_WITH_STOP_CODE = Pattern.compile("( \\- #[\\d]*[\\w]*[\\']*$)", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern HOS = Pattern.compile("((^|\\W){1}(hos)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 	private static final String HOS_REPLACEMENT = "$2Hospital$4";
@@ -699,7 +738,10 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public int getStopId(GStop gStop) {
-		if (StringUtils.isEmpty(gStop.getStopCode())) {
+		try {
+			if (!StringUtils.isEmpty(gStop.getStopCode()) && Utils.isDigitsOnly(gStop.getStopCode())) {
+				return Integer.parseInt(gStop.getStopCode()); // use stop code as stop ID
+			}
 			if (Utils.isDigitsOnly(gStop.getStopId())) {
 				return 100000 + Integer.parseInt(gStop.getStopId());
 			}
@@ -707,7 +749,22 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			if (matcher.find()) {
 				return 100000 + Integer.parseInt(matcher.group());
 			}
+			System.out.printf("\nUnexpected stop ID for %s!\n", gStop);
+			System.exit(-1);
+			return -1;
+		} catch (Exception e) {
+			System.out.printf("\nUnexpected stop ID error for %s!\n", gStop);
+			e.printStackTrace();
+			System.exit(-1);
+			return -1;
 		}
-		return Integer.parseInt(gStop.getStopCode()); // use stop code as stop ID
+	}
+
+	@Override
+	public String getStopCode(GStop gStop) {
+		if ("'".equals(gStop.getStopCode())) {
+			return null;
+		}
+		return super.getStopCode(gStop);
 	}
 }
