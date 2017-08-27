@@ -153,6 +153,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		case 37: return "0084BC";
 		case 38: return "DA2128";
 		case 39: return "B0789A";
+		case 40: return "1476C6";
 		case 90: return "F5821F";
 		case 91: return "F5821F";
 		case 92: return "F5821F";
@@ -161,6 +162,9 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		case 106: return "868A5B";
 		case 400: return "0FAB4B";
 		// @formatter:on
+		}
+		if (isGoodEnoughAccepted()) {
+			return null;
 		}
 		System.out.printf("\nUnexpected route color %s!\n", gRoute);
 		System.exit(-1);
@@ -302,6 +306,13 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
 		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
 			return; // split
+		}
+		if (!isGoodEnoughAccepted()) {
+			if (false) {
+				return; // TODO split trip
+			}
+			mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
+			return;
 		}
 		if (mRoute.getId() == 1l) {
 			if (gTrip.getDirectionId() == 0) {
@@ -615,6 +626,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString(MASONVILLE_MALL, LTC_EASTBOUND);
 				return;
 			}
+		} else if (mRoute.getId() == 40L) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(NORTHRIDGE, LTC_WESTBOUND);
+				return;
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(MASONVILLE, LTC_EASTBOUND);
+				return;
+			}
 		} else if (mRoute.getId() == 90l) {
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(WHITE_OAKS_MALL, LTC_SOUTHBOUND);
@@ -678,12 +697,16 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
+		if (isGoodEnoughAccepted()) {
+			return super.mergeHeadsign(mTrip, mTripToMerge);
+		}
 		System.out.printf("\nUnexpected trips to merge %s & %s!\n", mTrip, mTripToMerge);
 		System.exit(-1);
 		return false;
 	}
 
 	private static final Pattern ENDS_WITH_VIA = Pattern.compile("(via.*$)", Pattern.CASE_INSENSITIVE);
+
 	private static final Pattern AREA = Pattern.compile("((^|\\W){1}(area)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W){1}(industrial)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
