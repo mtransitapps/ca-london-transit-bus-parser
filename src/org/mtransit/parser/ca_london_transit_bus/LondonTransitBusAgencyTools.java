@@ -165,8 +165,12 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		if (mRoute.getId() == 1L) {
 			if (gTrip.getDirectionId() == 1) { // Kipps Lane - NORTH
 				if (Arrays.asList( //
+						"1B King edward & Thompson Only", //
 						"King edward & Thompson Only", //
+						"1A Pond Mills & Thompson Only", //
 						"Pond Mills & Thompson Only", //
+						"1A Kipps Lane via Wellington & Dundas", //
+						"1B Kipps Lane via Wellington & Dundas", //
 						"Kipps Lane via Wellington & Dundas" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
@@ -176,8 +180,12 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				if (Arrays.asList( //
 						StringUtils.EMPTY, //
 						"Wellington & Dundas Only", //
+						"1B King Edward via Wellington & Dundas", //
+						"2B King Edward via Wellington & Dundas", // WTF!
 						"King Edward via Wellington & Dundas", //
+						"1A Pond Mills Road via Wellington & Dundas", //
 						"Pond Mills Road via Wellington & Dundas", //
+						"1A Pond Mills via Wellington & Dundas", //
 						"Pond Mills via Wellington & Dundas" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -189,8 +197,11 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				if (Arrays.asList( //
 						StringUtils.EMPTY, //
 						"Dundas & Highbury Only", //
+						"2A Trafalgar Heights Only", //
 						"Trafalgar Heights Only", //
+						"2B Bonaventure via Dundas", //
 						"Bonaventure via Dundas", //
+						"2A Argyle Mall via Hale & Trafalgar", //
 						"Argyle Mall via Hale & Trafalgar" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
@@ -209,7 +220,9 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (mRoute.getId() == 3L) {
 			if (gTrip.getDirectionId() == 1) { // Argyle Mall - EAST
 				if (Arrays.asList( //
+						"3B Argyle Mall via Hamilton", //
 						"Argyle Mall via Hamilton", //
+						"3A Argyle Mall via Fairmont", //
 						"Argyle Mall via Fairmont" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
@@ -217,7 +230,11 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Downtown - WEST
 				if (Arrays.asList( //
+						"3A Highbury & Hamilton Only", //
+						"3B Highbury & Hamilton Only", //
 						"Highbury & Hamilton Only", //
+						"3B Downtown via Hamilton", //
+						"3A Downtown via Hamilton", //
 						"Downtown via Hamilton" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
@@ -228,7 +245,10 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			if (gTrip.getDirectionId() == 1) { // Fanshawe College - NORTH
 				if (Arrays.asList( //
 						StringUtils.EMPTY, //
+						"4B Southdale & Ernest Only", //
 						"Southdale & Ernest Only", //
+						"4A Fanshawe College via Downtown", //
+						"4B Fanshawe College via Downtown", //
 						"Fanshawe College via Downtown" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
@@ -236,6 +256,8 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 0) { // White Oaks Mall - SOUTH
 				if (Arrays.asList( //
+						"4A White Oaks Mall via Downtown", //
+						"4B White Oaks Mall via Downtown", //
 						"White Oaks Mall via Downtown" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -246,7 +268,10 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			if (gTrip.getDirectionId() == 1) { // Downtown - EAST
 				if (Arrays.asList( //
 						"Springbank & Wonderland Only", //
+						"5B Downtown via Gardenwood",//
 						"Downtown via Gardenwood", //
+						"5A Downtown via Springbank", //
+						"5B Downtown via Springbank", //
 						"Downtown via Springbank" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
@@ -254,7 +279,9 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Byron - WEST
 				if (Arrays.asList( //
+						"5B Byron via Gardenwood", //
 						"Byron via Gardenwood", //
+						"5A Byron via Springbank", //
 						"Byron via Springbank" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
@@ -302,8 +329,12 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (mRoute.getId() == 9L) {
 			if (gTrip.getDirectionId() == 1) { // Downtown - EAST
 				if (Arrays.asList( //
+						"9C Sarnia & Wonderland Only", //
 						"Sarnia & Wonderland Only", //
+						"9A Downtown via Sarnia", //
+						"9B Downtown via Sarnia", //
 						"Downtown via Sarnia", //
+						"9C Natural Science via Sarnia", //
 						"Natural Science via Sarnia" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
@@ -311,7 +342,10 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Whitehills - WEST
 				if (Arrays.asList( //
+						"9A Whitehills via Limberlost", //
+						"9C Whitehills via Limberlost", //
 						"Whitehills via Limberlost", //
+						"9B Whitehills via Aldersbrook", //
 						"Whitehills via Aldersbrook" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
@@ -376,6 +410,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			if (gTrip.getDirectionId() == 1) { // Masonville Mall - NORTH
 				if (Arrays.asList( //
 						"Masonville Mall Only", //
+						"13A Masonville Mall via Westminster Park", //
 						"Masonville Mall via Westminster Park", //
 						"Masonville Mall via Wellington & Richmond" //
 				).contains(gTrip.getTripHeadsign())) {
@@ -384,6 +419,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 0) { // White Oaks Mall - SOUTH
 				if (Arrays.asList( //
+						"13A White Oaks Mall via Westminster Park", //
 						"White Oaks Mall via Westminster Park", //
 						"White Oaks Mall via Richmond & Wellington" //
 				).contains(gTrip.getTripHeadsign())) {
@@ -413,7 +449,11 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			if (gTrip.getDirectionId() == 1) { // Downtown - NORTH
 				if (Arrays.asList( //
 						StringUtils.EMPTY, //
+						"15A to Dalhousie and Brixham", //
+						"15 B To Cranbrook", //
+						"15A Downtown via Old South", //
 						"Downtown via Old South", //
+						"15B Downtown via Cranbrook", //
 						"Downtown via Cranbrook" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
@@ -421,6 +461,8 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Westmount Mall - SOUTH
 				if (Arrays.asList( //
+						"15A Westmount Mall via Old South", //
+						"15B Westmount Mall via Old South", //
 						"Westmount Mall via Old South" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -434,7 +476,9 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"Commissioners at Deveron Only", //
 						"Summerside via Pond Mills", //
 						"Masonville via Adelaide", //
-						"Masvonille Mall via Adelaide", //
+						"Masvonille Mall via Adelaide", // WTF!
+						"16A Masonville Mall via Adelaide", //
+						"16B Masonville Mall via Adelaide", //
 						"Masonville Mall via Adelaide" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
@@ -443,8 +487,10 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			} else if (gTrip.getDirectionId() == 0) { // Summerside - SOUTH
 				if (Arrays.asList( //
 						"Adelaide & King Only", //
+						"16A Pond Mills via Adelaide", //
 						"Pond Mills via Adelaide", //
 						"Pond Mills & Summerside via Adelaide", //
+						"16B Summerside via Adelaide", //
 						"Summerside via Adelaide", //
 						"Summerside" //
 				).contains(gTrip.getTripHeadsign())) {
@@ -456,6 +502,8 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			if (gTrip.getDirectionId() == 0) { // Argyle Mall - EAST
 				if (Arrays.asList( //
 						"Boler & Commissioners Only", //
+						"17A Argyle Mall via Oxford", //
+						"17B Argyle Mall via Oxford", //
 						"Argyle Mall via Oxford" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
@@ -463,7 +511,10 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 1) { // Byron / Riverbend - WEST
 				if (Arrays.asList( //
+						"17B Riverbend via Oxford", //
 						"Riverbend via Oxford", //
+						"17A Byron via Oxford", //
+						"17B Byron via Oxford", //
 						"Byron via Oxford" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
@@ -919,6 +970,10 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		System.exit(-1);
 	}
 
+	private static final String A_ = "A ";
+	private static final String B_ = "B ";
+	private static final String C_ = "C ";
+
 	@Override
 	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
 		if (MTrip.mergeEmpty(mTrip, mTripToMerge)) {
@@ -928,15 +983,22 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		if (mTrip.getRouteId() == 1L) {
 			if (Arrays.asList( //
 					"Wellington & Dundas", //
+					B_ + "King Edward", //
 					"King Edward", //
+					A_ + "Pond Mills Rd", //
 					"Pond Mills Rd", //
+					A_ + "Pond Mills", //
 					"Pond Mills" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Pond Mills", mTrip.getHeadsignId());
 				return true;
 			} else if (Arrays.asList( //
+					B_ + "King Edward & Thompson", //
 					"King Edward & Thompson", //
+					A_ + "Pond Mills & Thompson", //
 					"Pond Mills & Thompson", //
+					A_ + "Kipps Ln", //
+					B_ + "Kipps Ln", //
 					"Kipps Ln" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Kipps Ln", mTrip.getHeadsignId());
@@ -945,8 +1007,11 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (mTrip.getRouteId() == 2L) {
 			if (Arrays.asList( //
 					"Dundas & Highbury", //
+					A_ + "Trafalgar Hts", //
 					"Trafalgar Hts", //
+					A_ + "Argyle Mall", // <>
 					"Argyle Mall", // <>
+					B_ + "Bonaventure", //
 					"Bonaventure", //
 					"Argyle Mall" + SLASH + "Bonaventure" // ++
 			).containsAll(headsignsValues)) {
@@ -961,26 +1026,59 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == 3L) {
 			if (Arrays.asList( //
+					A_ + "Highbury & Hamilton", //
+					B_ + "Highbury & Hamilton", //
 					"Highbury & Hamilton", //
+					A_ + "Downtown", //
+					B_ + "Downtown", //
 					"Downtown" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Downtown", mTrip.getHeadsignId());
 				return true;
 			}
+			if (Arrays.asList( //
+					A_ + "Argyle Mall", //
+					B_ + "Argyle Mall", //
+					"Argyle Mall" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Argyle Mall", mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == 4L) {
 			if (Arrays.asList( //
+					B_ + "Southdale & Ernest", //
 					"Southdale & Ernest", //
+					A_ + "Fanshawe College", //
+					B_ + "Fanshawe College", //
 					"Fanshawe College" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Fanshawe College", mTrip.getHeadsignId());
 				return true;
 			}
+			if (Arrays.asList( //
+					A_ + "White Oaks Mall", //
+					B_ + "White Oaks Mall", //
+					"White Oaks Mall" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("White Oaks Mall", mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == 5L) {
 			if (Arrays.asList( //
 					"Springbank & Wonderland", //
+					A_ + "Downtown", //
+					B_ + "Downtown", //
 					"Downtown" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Downtown", mTrip.getHeadsignId());
+				return true;
+			}
+			if (Arrays.asList( //
+					A_ + "Byron", //
+					B_ + "Byron", //
+					"Byron" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Byron", mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 6L) {
@@ -1008,11 +1106,24 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == 9L) {
 			if (Arrays.asList( //
+					C_ + "Sarnia & Wonderland", //
 					"Sarnia & Wonderland", //
+					C_ + "Natural Science", //
 					"Natural Science", //
+					A_ + "Downtown", //
+					B_ + "Downtown", //
 					"Downtown" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Downtown", mTrip.getHeadsignId());
+				return true;
+			}
+			if (Arrays.asList( //
+					A_ + "Whitehills", //
+					B_ + "Whitehills", //
+					C_ + "Whitehills", //
+					"Whitehills" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Whitehills", mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 10L) {
@@ -1032,6 +1143,21 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString("Downtown", mTrip.getHeadsignId());
 				return true;
 			}
+		} else if (mTrip.getRouteId() == 13L) {
+			if (Arrays.asList( //
+					A_ + "White Oaks Mall", //
+					"White Oaks Mall" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("White Oaks Mall", mTrip.getHeadsignId());
+				return true;
+			}
+			if (Arrays.asList( //
+					A_ + "Masonville Mall", //
+					"Masonville Mall" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Masonville Mall", mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == 14L) {
 			if (Arrays.asList( //
 					"Highbury & Brydges", // <>
@@ -1046,11 +1172,32 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				mTrip.setHeadsignString("White Oaks Mall", mTrip.getHeadsignId());
 				return true;
 			}
+		} else if (mTrip.getRouteId() == 15L) {
+			if (Arrays.asList( //
+					A_ + "Dalhousie & Brixham", //
+					B_ + "Cranbrook", //
+					A_ + "Downtown", //
+					B_ + "Downtown", //
+					"Downtown" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Downtown", mTrip.getHeadsignId());
+				return true;
+			}
+			if (Arrays.asList( //
+					A_ + "Westmount Mall", //
+					B_ + "Westmount Mall", //
+					"Westmount Mall" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Westmount Mall", mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == 16L) {
 			if (Arrays.asList( //
 					"Adelaide & King", //
+					A_ + "Pond Mills", //
 					"Pond Mills", //
 					"Pond Mills & Summerside", //
+					B_ + "Summerside", // <>
 					"Summerside" // <>
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Summerside", mTrip.getHeadsignId());
@@ -1060,6 +1207,8 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					"Commissioners & Highbury", //
 					"Commissioners @ Deveron", //
 					"Masonville", //
+					A_ + "Masonville Mall", //
+					B_ + "Masonville Mall", //
 					"Masonville Mall" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Masonville Mall", mTrip.getHeadsignId());
@@ -1068,15 +1217,21 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (mTrip.getRouteId() == 17L) {
 			if (Arrays.asList( //
 					"Boler & Commissioners", //
+					A_ + "Argyle Mall", //
+					B_ + "Argyle Mall", //
 					"Argyle Mall" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Argyle Mall", mTrip.getHeadsignId());
 				return true;
 			} else if (Arrays.asList( //
+					B_ + "Riverbend", //
 					"Riverbend", //
-					"Byron" //
+					A_ + "Byron",//
+					B_ + "Byron",//
+					"Byron", //
+					"Byron" + SLASH + "Riverbend" // ++
 			).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString("Byron", mTrip.getHeadsignId());
+				mTrip.setHeadsignString("Byron" + SLASH + "Riverbend", mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 19L) {
@@ -1226,11 +1381,18 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern STARTS_WITH_EXPRESS_TO = Pattern.compile("(^express to )", Pattern.CASE_INSENSITIVE);
 
+	private static final Pattern STARTS_WITH_TO = Pattern.compile("(([A-Z]{1}[\\s]+)?(.*)([\\s]?to )(.*))", Pattern.CASE_INSENSITIVE);
+	private static final String STARTS_WITH_TO_REPLACEMENT = "$2$5";
+
+	private static final Pattern STARTS_WITH_RSN = Pattern.compile("(^[\\d]+[\\s]?)", Pattern.CASE_INSENSITIVE);
+
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
 		if (Utils.isUppercaseOnly(tripHeadsign, true, true)) {
 			tripHeadsign = tripHeadsign.toLowerCase(Locale.ENGLISH);
 		}
+		tripHeadsign = STARTS_WITH_RSN.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY); // 1st
+		tripHeadsign = STARTS_WITH_TO.matcher(tripHeadsign).replaceAll(STARTS_WITH_TO_REPLACEMENT); // 2nd
 		tripHeadsign = STARTS_WITH_EXPRESS_TO.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = AREA.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = INDUSTRIAL.matcher(tripHeadsign).replaceAll(INDUSTRIAL_REPLACEMENT);
