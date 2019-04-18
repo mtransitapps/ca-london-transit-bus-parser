@@ -409,6 +409,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (mRoute.getId() == 13L) {
 			if (gTrip.getDirectionId() == 1) { // Masonville Mall - NORTH
 				if (Arrays.asList( //
+						StringUtils.EMPTY, //
 						"Masonville Mall Only", //
 						"13A Masonville Mall via Westminster Park", //
 						"Masonville Mall via Westminster Park", //
@@ -419,6 +420,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 0) { // White Oaks Mall - SOUTH
 				if (Arrays.asList( //
+						StringUtils.EMPTY, //
 						"13A White Oaks Mall via Westminster Park", //
 						"White Oaks Mall via Westminster Park", //
 						"White Oaks Mall via Richmond & Wellington" //
@@ -501,6 +503,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (mRoute.getId() == 17L) {
 			if (gTrip.getDirectionId() == 0) { // Argyle Mall - EAST
 				if (Arrays.asList( //
+						StringUtils.EMPTY, //
 						"Boler & Commissioners Only", //
 						"17A Argyle Mall via Oxford", //
 						"17B Argyle Mall via Oxford", //
@@ -511,6 +514,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 1) { // Byron / Riverbend - WEST
 				if (Arrays.asList( //
+						StringUtils.EMPTY, //
 						"17B Riverbend via Oxford", //
 						"Riverbend via Oxford", //
 						"17A Byron via Oxford", //
@@ -764,13 +768,15 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (mTrip.getRouteId() == 35L) {
 			if (gTrip.getDirectionId() == 1) { // Argyle Mall - NORTH
 				if (Arrays.asList( //
-						"Argyle Mall via Marconi" //
+						"Argyle Mall via Marconi" // <>
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Trafalgar Heights - SOUTH
 				if (Arrays.asList( //
+						"Argyle Mall via Marconi", // <>
+						"Trafalgar Heights", //
 						"Trafalgar Heights via Marconi" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -1313,6 +1319,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					"Alumni Hall" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Alumni Hall", mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 35L) {
+			if (Arrays.asList( //
+					"Argyle Mall", // <>
+					"Trafalgar Hts" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Trafalgar Hts", mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 37L) {
