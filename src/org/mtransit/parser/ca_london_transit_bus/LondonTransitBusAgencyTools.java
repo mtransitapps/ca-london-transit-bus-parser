@@ -170,6 +170,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"King edward & Thompson Only", //
 						"1A Pond Mills & Thompson Only", //
 						"Pond Mills & Thompson Only", //
+						"1 Kipps Lane via Wellington & Dundas", //
 						"1A Kipps Lane via Wellington & Dundas", //
 						"1B Kipps Lane via Wellington & Dundas", //
 						"Kipps Lane via Wellington & Dundas" //
@@ -180,10 +181,13 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			} else if (gTrip.getDirectionId() == 0) { // Pond Mills - SOUTH
 				if (Arrays.asList( //
 						StringUtils.EMPTY, //
+						"1 to Adelaide & Huron Only", //
+						"1 Wellington & Dundas Only", //
 						"Wellington & Dundas Only", //
 						"1B King Edward via Wellington & Dundas", //
 						"2B King Edward via Wellington & Dundas", // WTF!
 						"King Edward via Wellington & Dundas", //
+						"1A King Edward via Wellington & Dundas", //
 						"1A Pond Mills Road via Wellington & Dundas", //
 						"Pond Mills Road via Wellington & Dundas", //
 						"1A Pond Mills via Wellington & Dundas", //
@@ -199,10 +203,12 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						StringUtils.EMPTY, //
 						"2 to Dundas and Highbury Only", //
 						"2 to Dundas & Highbury Only", //
+						"2 Dundas & Highbury Only", //
 						"Dundas & Highbury Only", //
 						"2A Trafalgar Heights Only", //
 						"2A to Trafalgar Heights", //
 						"Trafalgar Heights Only", //
+						"2A Trafalgar Heigths via Argyle Mall", //
 						"2B Bonaventure via Dundas", //
 						"Bonaventure via Dundas", //
 						"2A Argyle Mall via Hale & Trafalgar", //
@@ -217,6 +223,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"2B Argyle Mall Only", //
 						"Argyle Mall Only", //
 						"2 to Natural Science via Dundas", //
+						"2 Natural Science via Dundas", //
 						"2A", //
 						"2A Natural Science via Dundas", //
 						"2B Natural Science via Dundas", //
@@ -473,6 +480,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"15A to Dalhousie and Brixham Only", //
 						"15A to Dalhousie and Brixham", //
 						"15 B To Cranbrook", //
+						"15B to Cranbrook and Commissioners Only", //
 						"15B to Cranbrook and Commissioners only", //
 						"15A- Downtown via Old South", //
 						"15A Downtown via Old South", //
@@ -485,6 +493,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Westmount Mall - SOUTH
 				if (Arrays.asList( //
+						"Westmount  Only", //
 						"15A Westmount Mall via Old South", //
 						"15 B Westmount Mall via Old South", //
 						"15B Westmount Mall via Old South", //
@@ -500,6 +509,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"16 Commissioners & Highbury Only", //
 						"Commissioners & Highbury Only", //
 						"16A Commissioners at Deveron Only", //
+						"16 Commissioners at Deveron Only", //
 						"Commissioners at Deveron Only", //
 						"16 Summerside via Pond Mills", //
 						"Summerside via Pond Mills", //
@@ -550,6 +560,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						StringUtils.EMPTY, //
 						"17B Riverbend via Oxford", //
 						"Riverbend via Oxford", //
+						"17 A Byron via Oxford", //
 						"17A Byron via Oxford", //
 						"17B Byron via Oxford", //
 						"Byron via Oxford" //
@@ -1022,7 +1033,9 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
 		if (mTrip.getRouteId() == 1L) {
 			if (Arrays.asList( //
+					"Adelaide & Huron", //
 					"Wellington & Dundas", //
+					A_ + "King Edward", //
 					B_ + "King Edward", //
 					"King Edward", //
 					A_ + "Pond Mills Rd", //
@@ -1048,6 +1061,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			if (Arrays.asList( //
 					"Dundas & Highbury", //
 					A_ + "Trafalgar Hts", //
+					A_ + "Trafalgar Heigths", // !
 					"Trafalgar Hts", //
 					A_ + "Argyle Mall", // <>
 					"Argyle Mall", // <>
@@ -1230,6 +1244,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 			if (Arrays.asList( //
+					"Westmount", //
 					A_ + "Westmount Mall", //
 					B_ + "Westmount Mall", //
 					"Westmount Mall" //
