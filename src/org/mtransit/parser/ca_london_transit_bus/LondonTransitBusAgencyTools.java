@@ -120,6 +120,12 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final int LTC_SOUTHBOUND = 3;
 	private static final int LTC_WESTBOUND = 4;
 
+	private static final int LTC_CW = 10;
+	private static final int LTC_CCW = 11;
+
+	private static final int LTC_HURON_AND_BARKER = 101;
+	private static final int LTC_WESTERN = 102;
+
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<Long, RouteTripSpec>();
@@ -138,15 +144,15 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						})) //
 				.compileBothTripSort());
 		map2.put(34L, new RouteTripSpec(34L, //
-				LTC_EASTBOUND, MTrip.HEADSIGN_TYPE_STRING, "CW via Natural Science", // "Masonville Pl", //
-				LTC_WESTBOUND, MTrip.HEADSIGN_TYPE_STRING, "CCW via Alumni Hall") // "Masonville Pl") //
-				.addTripSort(LTC_EASTBOUND, //
+				LTC_CW, MTrip.HEADSIGN_TYPE_STRING, "CW via Natural Science", // "Masonville Pl", //
+				LTC_CCW, MTrip.HEADSIGN_TYPE_STRING, "CCW via Alumni Hall") // "Masonville Pl") //
+				.addTripSort(LTC_CW, //
 						Arrays.asList(new String[] { //
 						Stops.ALL_STOPS.get("1141"), // Masonville Place Stop #2 - #1141
 								Stops.ALL_STOPS.get("2879"), // Stackhouse at Fanshawe SB - #2879
 								Stops.ALL_STOPS.get("1141"), // Masonville Place Stop #2 - #1141
 						})) //
-				.addTripSort(LTC_WESTBOUND, //
+				.addTripSort(LTC_CCW, //
 						Arrays.asList(new String[] { //
 						Stops.ALL_STOPS.get("1142"), // Masonville Place Stop #3 - #1142
 								Stops.ALL_STOPS.get("141"), // Alumni Hall EB - #141
@@ -464,27 +470,24 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			}
 		} else if (mRoute.getId() == 10L) {
-			if (gTrip.getDirectionId() == 0) { // Masonville - NORTH
+			if (gTrip.getDirectionId() == 0) { // Masonville - WESTERN
 				if (Arrays.asList( //
 						"White Oaks Mall Only via Highbury", //
 						"Highbury/Brydges Only via Highbury", //
 						"Natural Science via White Oaks Mall", //
-						"Natural Science via Wonderland", //
-						"Masonville via White Oaks Mall", //
-						"Masonvile via Wonderland" //
+						"Masonville via White Oaks Mall" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTERN);
 					return;
 				}
-			} else if (gTrip.getDirectionId() == 1) { // White Oaks Mall - SOUTH
+			} else if (gTrip.getDirectionId() == 1) { // Barker/Huron - HURON_AND_BARKER
 				if (Arrays.asList( //
 						"Barker/Huron via White Oaks Mall", //
 						"Barker/Huron via Highbury", //
 						"Barker & Huron via Highbury", //
-						"Highbury & Trafalgar Only via White Oaks Mall", //
-						"White Oaks Mall via Wonderland" //
+						"Highbury & Trafalgar Only via White Oaks Mall" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_HURON_AND_BARKER);
 					return;
 				}
 			}
@@ -914,20 +917,20 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			}
 		} else if (mTrip.getRouteId() == 34L) {
-			if (gTrip.getDirectionId() == 0) { // Masonville Mall - EAST
+			if (gTrip.getDirectionId() == 0) { // Masonville - CLOCKWISE
 				if (Arrays.asList( //
 						"Garage via Fanshawe Park Rd", //
 						"Masonville via Natural Science" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_CW);
 					return;
 				}
-			} else if (gTrip.getDirectionId() == 1) { // Alumni Hall - WEST
+			} else if (gTrip.getDirectionId() == 1) { // Alumni Hall - COUNTER CLOCKWISE
 				if (Arrays.asList( //
 						"Masonville to Alumni Hall Only", //
 						"Masonville via Alumni Hall" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_CCW);
 					return;
 				}
 			}
@@ -1365,7 +1368,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == 10L) {
 			if (Arrays.asList( //
-					"Highbury/Brydges", //
+					"Highbury/Brydges", // <>
 					"White Oaks Mall", //
 					"Natural Science", //
 					"Masonville" //
