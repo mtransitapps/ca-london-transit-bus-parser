@@ -1,13 +1,5 @@
 package org.mtransit.parser.ca_london_transit_bus;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
@@ -27,6 +19,14 @@ import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
 import org.mtransit.parser.mt.data.MTripStop;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.regex.Pattern;
+
 // http://www.londontransit.ca/open-data/
 // http://www.londontransit.ca/gtfsfeed/google_transit.zip
 public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
@@ -45,7 +45,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void start(String[] args) {
-		System.out.printf("\nGenerating London Transit bus data...");
+		System.out.print("\nGenerating London Transit bus data...");
 		long start = System.currentTimeMillis();
 		this.serviceIds = extractUsefulServiceIds(args, this);
 		super.start(args);
@@ -127,89 +127,86 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final int LTC_WESTERN = 102;
 
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
+
 	static {
-		HashMap<Long, RouteTripSpec> map2 = new HashMap<Long, RouteTripSpec>();
+		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
 		map2.put(31L, new RouteTripSpec(31L, //
 				LTC_EASTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Alumni Hall", //
 				LTC_WESTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Hyde Park Power Centre") //
 				.addTripSort(LTC_EASTBOUND, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("1653"), // Seagull at Hyde Park WB - #1653
-								Stops.ALL_STOPS.get("142"), // Alumni Hall WB - #142
-						})) //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("1653"), // Seagull at Hyde Park WB - #1653
+								Stops.getALL_STOPS().get("142") // Alumni Hall WB - #142
+						)) //
 				.addTripSort(LTC_WESTBOUND, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("142"), // Alumni Hall WB - #142
-								Stops.ALL_STOPS.get("1653"), // Seagull at Hyde Park WB - #1653
-						})) //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("142"), // Alumni Hall WB - #142
+								Stops.getALL_STOPS().get("1653") // Seagull at Hyde Park WB - #1653
+						)) //
 				.compileBothTripSort());
 		map2.put(34L, new RouteTripSpec(34L, //
 				LTC_CW, MTrip.HEADSIGN_TYPE_STRING, "CW via Natural Science", // "Masonville Pl", //
 				LTC_CCW, MTrip.HEADSIGN_TYPE_STRING, "CCW via Alumni Hall") // "Masonville Pl") //
 				.addTripSort(LTC_CW, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("1141"), // Masonville Place Stop #2 - #1141
-								Stops.ALL_STOPS.get("2879"), // Stackhouse at Fanshawe SB - #2879
-								Stops.ALL_STOPS.get("1141"), // Masonville Place Stop #2 - #1141
-						})) //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("1141"), // Masonville Place Stop #2 - #1141
+								Stops.getALL_STOPS().get("2879"), // Stackhouse at Fanshawe SB - #2879
+								Stops.getALL_STOPS().get("1141") // Masonville Place Stop #2 - #1141
+						)) //
 				.addTripSort(LTC_CCW, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("1142"), // Masonville Place Stop #3 - #1142
-								Stops.ALL_STOPS.get("141"), // Alumni Hall EB - #141
-								Stops.ALL_STOPS.get("1142"), // Masonville Place Stop #3 - #1142
-						})) //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("1142"), // Masonville Place Stop #3 - #1142
+								Stops.getALL_STOPS().get("141"), // Alumni Hall EB - #141
+								Stops.getALL_STOPS().get("1142") // Masonville Place Stop #3 - #1142
+						)) //
 				.compileBothTripSort());
 		map2.put(94L, new RouteTripSpec(94L, //
 				LTC_EASTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Argyle Mall", //
 				LTC_WESTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Natural Science") //
 				.addTripSort(LTC_EASTBOUND, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("1222"), // Natural Science - #1222
-								Stops.ALL_STOPS.get("2731"), // Argyle Mall SB - Stop 1 - #2731
-						})) //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("1222"), // Natural Science - #1222
+								Stops.getALL_STOPS().get("2731") // Argyle Mall SB - Stop 1 - #2731
+						)) //
 				.addTripSort(LTC_WESTBOUND, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("2731"), // Argyle Mall SB - Stop 1 - #2731
-								Stops.ALL_STOPS.get("1222"), // Natural Science - #1222
-						})) //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("2731"), // Argyle Mall SB - Stop 1 - #2731
+								Stops.getALL_STOPS().get("1222") // Natural Science - #1222
+						)) //
 				.compileBothTripSort());
 		map2.put(102L, new RouteTripSpec(102L, //
 				LTC_NORTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Natural Science", //
 				LTC_SOUTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(LTC_NORTHBOUND, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("2737"), // Queens at Richmond WB - #2737
-								Stops.ALL_STOPS.get("1222"), // Natural Science - #1222
-						})) //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("2737"), // Queens at Richmond WB - #2737
+								Stops.getALL_STOPS().get("1222") // Natural Science - #1222
+						)) //
 				.addTripSort(LTC_SOUTHBOUND, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("1222"), // Natural Science - #1222
-								Stops.ALL_STOPS.get("1080"), // King at Clarence EB - #1080
-								Stops.ALL_STOPS.get("1939"), // Wellington South of Dundas St NB - #1939
-								Stops.ALL_STOPS.get("2737"), // Queens at Richmond WB - #2737
-						})) //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("1222"), // Natural Science - #1222
+								Stops.getALL_STOPS().get("1080"), // King at Clarence EB - #1080
+								Stops.getALL_STOPS().get("1939"), // Wellington South of Dundas St NB - #1939
+								Stops.getALL_STOPS().get("2737") // Queens at Richmond WB - #2737
+						)) //
 				.compileBothTripSort());
 		map2.put(106L, new RouteTripSpec(106L, //
 				LTC_NORTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Natural Science", //
 				LTC_SOUTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
 				.addTripSort(LTC_NORTHBOUND, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("1501"), // Richmond at Queens NB - #1501
-								Stops.ALL_STOPS.get("1222"), // Natural Science - #1222
-						})) //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("1501"),// Richmond at Queens NB - #1501
+								Stops.getALL_STOPS().get("1501"), // Richmond at Queens NB - #1501
+								Stops.getALL_STOPS().get("1222") // Natural Science - #1222
+						)) //
 				.addTripSort(LTC_SOUTHBOUND, //
-						Arrays.asList(new String[] { //
-						Stops.ALL_STOPS.get("1222"), // Natural Science - #1222
-								Stops.ALL_STOPS.get("600"), // Dundas at Ridout EB - #600
-								Stops.ALL_STOPS.get("1470"), // Richmond south of Dundas NB - #1470
-								Stops.ALL_STOPS.get("1501"), // Richmond at Queens NB - #1501
-						})) //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("1222"), // Natural Science - #1222
+								Stops.getALL_STOPS().get("600"), // Dundas at Ridout EB - #600
+								Stops.getALL_STOPS().get("1501"),// Richmond at Queens NB - #1501
+								Stops.getALL_STOPS().get("1501") // Richmond at Queens NB - #1501
+						)) //
 				.compileBothTripSort());
-		if (GOOD_ENOUGH_ACCEPTED) {
-			map2.remove(106L);
-		} else {
-			// TODO ?
-		}
 		ALL_ROUTE_TRIPS2 = map2;
 	}
 
@@ -1108,22 +1105,6 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mTrip.getRouteId() == 94L) {
-			if (gTrip.getDirectionId() == 0) { // Argyle Mall - EAST
-				if (Arrays.asList( //
-						StringUtils.EMPTY //
-						).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
-					return;
-				}
-			} else if (gTrip.getDirectionId() == 0) { // Natural Science - WEST
-				if (Arrays.asList( //
-						StringUtils.EMPTY //
-						).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
-					return;
-				}
-			}
 		} else if (mRoute.getId() == 102L) {
 			if (gTrip.getDirectionId() == 1) { // Natural Science - NORTH
 				if (Arrays.asList( //
@@ -1135,7 +1116,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			} else if (gTrip.getDirectionId() == 0) { // Downtown - SOUTH
 				if (Arrays.asList( //
 						StringUtils.EMPTY //
-						).contains(gTrip.getTripHeadsign())) {
+				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
 					return;
 				}
@@ -1151,15 +1132,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			} else if (gTrip.getDirectionId() == 1) { // ??? - SOUTH
 				if (Arrays.asList( //
 						StringUtils.EMPTY //
-						).contains(gTrip.getTripHeadsign())) {
-					if (isGoodEnoughAccepted()) {
-						if (gTrip.getTripHeadsign().isEmpty()) {
-							mTrip.setHeadsignString("Downtown", LTC_SOUTHBOUND);
-							return;
-						}
-					} else {
-						// TODO ?
-					}
+				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
 					return;
 				}
@@ -1732,7 +1705,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern BOUNDS = Pattern.compile("(eb|wb|nb|sb|fs|ns)", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern ENDS_WITH_STOP_CODE = Pattern.compile("( \\- #[\\d]*[\\w]*[\\']*$)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern ENDS_WITH_STOP_CODE = Pattern.compile("( - #[\\d]*[\\w]*[']*$)", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public String cleanStopName(String gStopName) {
