@@ -1040,6 +1040,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		} else if (mTrip.getRouteId() == 90L) {
 			if (gTrip.getDirectionId() == 1) { // Masonville Mall - NORTH
 				if (Arrays.asList( //
+						"Richmond & Dundas Only", //
 						"Express to Masonville Mall" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
@@ -1614,6 +1615,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					"Northridge" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Northridge", mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (mTrip.getRouteId() == 90L) {
+			if (Arrays.asList( //
+					"Richmond & Dundas", // Only
+					"Masonville Mall" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Masonville Mall", mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 93L) {
