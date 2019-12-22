@@ -47,7 +47,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	public void start(String[] args) {
 		System.out.print("\nGenerating London Transit bus data...");
 		long start = System.currentTimeMillis();
-		this.serviceIds = extractUsefulServiceIds(args, this);
+		this.serviceIds = extractUsefulServiceIds(args, this, true);
 		super.start(args);
 		System.out.printf("\nGenerating London Transit bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
@@ -158,20 +158,6 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("1142"), // Masonville Place Stop #3 - #1142
 								Stops.getALL_STOPS().get("141"), // Alumni Hall EB - #141
 								Stops.getALL_STOPS().get("1142") // Masonville Place Stop #3 - #1142
-						)) //
-				.compileBothTripSort());
-		map2.put(94L, new RouteTripSpec(94L, //
-				LTC_EASTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Argyle Mall", //
-				LTC_WESTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Natural Science") //
-				.addTripSort(LTC_EASTBOUND, //
-						Arrays.asList(//
-								Stops.getALL_STOPS().get("1222"), // Natural Science - #1222
-								Stops.getALL_STOPS().get("2731") // Argyle Mall SB - Stop 1 - #2731
-						)) //
-				.addTripSort(LTC_WESTBOUND, //
-						Arrays.asList(//
-								Stops.getALL_STOPS().get("2731"), // Argyle Mall SB - Stop 1 - #2731
-								Stops.getALL_STOPS().get("1222") // Natural Science - #1222
 						)) //
 				.compileBothTripSort());
 		map2.put(102L, new RouteTripSpec(102L, //
@@ -633,6 +619,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"Adelaide & King Only", //
 						"16A Pond Mills via Adelaide", //
 						"Pond Mills via Adelaide", //
+						"To Pond Mills via Adelaide", //
 						"16 Pond Mills & Summerside via Adelaide", //
 						"Pond Mills & Summerside via Adelaide", //
 						"16B Summerside via Adelaide", //
@@ -1103,6 +1090,22 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"White Oaks Mall via Western/Wharncliffe" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
+					return;
+				}
+			}
+		} else if (mTrip.getRouteId() == 94L) {
+			if (gTrip.getDirectionId() == 0) { // Argyle Mall - EAST
+				if (Arrays.asList( //
+						"94 Express to Argyle Mall via Dundas" //
+				).contains(gTrip.getTripHeadsign())) {
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
+					return;
+				}
+			} else if (gTrip.getDirectionId() == 1) { // Natural Science - SOUTH
+				if (Arrays.asList( //
+						"94 Express to Natural Science via Dundas" //
+				).contains(gTrip.getTripHeadsign())) {
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
 					return;
 				}
 			}
