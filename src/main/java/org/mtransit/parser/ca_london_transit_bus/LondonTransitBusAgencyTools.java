@@ -1715,8 +1715,6 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		return CleanUtils.cleanLabel(tripHeadsign);
 	}
 
-	private static final Pattern BOUNDS = Pattern.compile("(eb|wb|nb|sb|fs|ns)", Pattern.CASE_INSENSITIVE);
-
 	private static final Pattern ENDS_WITH_STOP_CODE = Pattern.compile("( - #[\\d]*[\\w]*[']*$)", Pattern.CASE_INSENSITIVE);
 
 	@Override
@@ -1724,7 +1722,6 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		if (Utils.isUppercaseOnly(gStopName, true, true)) {
 			gStopName = gStopName.toLowerCase(Locale.ENGLISH);
 		}
-		gStopName = BOUNDS.matcher(gStopName).replaceAll(StringUtils.EMPTY);
 		gStopName = ENDS_WITH_STOP_CODE.matcher(gStopName).replaceAll(StringUtils.EMPTY);
 		gStopName = HOSPITAL_.matcher(gStopName).replaceAll(HOSPITAL_REPLACEMENT);
 		gStopName = CleanUtils.CLEAN_AND.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT);
