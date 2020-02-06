@@ -635,6 +635,8 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			if (gTrip.getDirectionId() == 0) { // Argyle Mall - EAST
 				if (Arrays.asList( //
 						StringUtils.EMPTY, //
+						"Fanshawe College Only", //
+						"Oxford & Wonderland Only", //
 						"17A Boler & Commissioners Only", //
 						"Boler & Commissioners Only", //
 						"17A Argyle Mall via Oxford", //
@@ -1454,6 +1456,8 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					"Boler & Commissioners", //
 					A_ + "Argyle Mall", //
 					B_ + "Argyle Mall", //
+					"Fanshawe College", //
+					"Oxford & Wonderland", //
 					"Argyle Mall" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Argyle Mall", mTrip.getHeadsignId());
