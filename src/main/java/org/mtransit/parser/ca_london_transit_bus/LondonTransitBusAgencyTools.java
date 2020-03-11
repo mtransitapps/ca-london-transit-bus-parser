@@ -1,8 +1,10 @@
 package org.mtransit.parser.ca_london_transit_bus;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
+import org.mtransit.parser.MTLog;
 import org.mtransit.parser.Pair;
 import org.mtransit.parser.SplitUtils;
 import org.mtransit.parser.SplitUtils.RouteTripSpec;
@@ -21,6 +23,7 @@ import org.mtransit.parser.mt.data.MTripStop;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -45,11 +48,11 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void start(String[] args) {
-		System.out.print("\nGenerating London Transit bus data...");
+		MTLog.log("Generating London Transit bus data...");
 		long start = System.currentTimeMillis();
 		this.serviceIds = extractUsefulServiceIds(args, this, true);
 		super.start(args);
-		System.out.printf("\nGenerating London Transit bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+		MTLog.log("Generating London Transit bus data... DONE in %s.", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
 
 	@Override
@@ -228,6 +231,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String MASONVILLE = "Masonville";
 	private static final String HOSPITAL_SHORT = "Hosp";
 
+	@SuppressWarnings("RedundantCollectionOperation")
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
 		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
@@ -698,7 +702,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"Hyde Park Power Centre via Hyde Park", //
 						"Downtown via Hyde Park" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Hyde Pk Power Ctr - WEST
@@ -709,7 +713,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"Stoney Creek via Hyde Park", //
 						"Hyde Park Power Centre via Hyde Park" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
 					return;
 				}
 			}
@@ -735,7 +739,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mRoute.getId() == 21L) {
 			if (gTrip.getDirectionId() == 0) { // Huron Hts - NORTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Huron Heights via Cheapside" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
@@ -777,14 +781,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mRoute.getId() == 25L) {
 			if (gTrip.getDirectionId() == 0) { // Masonville Mall - NORTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Masonville Mall via Grenfell" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 1) { // Fanshawe College - SOUTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Fanshawe College via Grenfell" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -801,7 +805,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 0) { // White Oaks Mall - SOUTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"White Oaks Mall via Wharncliffe" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -835,7 +839,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"Wonderland & Wharncliffe only", //
 						"Westmount Mall via Wonderland" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Lambeth - SOUTH
@@ -843,13 +847,13 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"Lambeth via Exeter", //
 						"Lambeth via Wonderland" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
 					return;
 				}
 			}
 		} else if (mRoute.getId() == 29L) {
 			if (gTrip.getDirectionId() == 0) { // Natural Science - NORTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Natural Science via Sarnia" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
@@ -866,14 +870,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == 30L) {
 			if (gTrip.getDirectionId() == 0) { // Cheese Factory Road - EAST
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Cheese Factory Road via Newbold" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 1) { // White Oaks Mall - WEST
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"White Oaks Mall via Wilton Grove" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
@@ -900,7 +904,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == 32L) {
 			if (gTrip.getDirectionId() == 0) { // Huron & Highbury - EAST
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Huron & Highbury via Windermere" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
@@ -925,7 +929,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Proudfoot - WEST
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Proudfoot via Platts Lane" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
@@ -971,7 +975,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == 36L) {
 			if (gTrip.getDirectionId() == 0) { // London Airport - EAST
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"London Airport via Oxford" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
@@ -996,7 +1000,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Neptune Crescent - SOUTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Neptune Crescent via Sovereign" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -1005,7 +1009,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == 38L) {
 			if (gTrip.getDirectionId() == 0) { // Stoney Creek - NORTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Stoney Creek via Sunningdale" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
@@ -1022,14 +1026,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == 39L) {
 			if (gTrip.getDirectionId() == 1) { // Masonville Mall - EAST
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Masonville Mall via Fanshawe" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Hyde Park Power Centre - WEST
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Hyde Park Power Centre via Fanshawe" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
@@ -1066,7 +1070,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 0) { // White Oaks Mall - SOUTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Express to White Oaks Mall" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -1075,7 +1079,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == 91L) {
 			if (gTrip.getDirectionId() == 0) { // Fanshawe College - EAST
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Express to Fanshawe College" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
@@ -1092,7 +1096,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == 92L) {
 			if (gTrip.getDirectionId() == 0) { // Masonville Mall - NORTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Express to Masonville Mall" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
@@ -1127,14 +1131,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mTrip.getRouteId() == 94L) {
 			if (gTrip.getDirectionId() == 0) { // Argyle Mall - EAST
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"94 Express to Argyle Mall via Dundas" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_EASTBOUND);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 1) { // Natural Science - SOUTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"94 Express to Natural Science via Dundas" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_WESTBOUND);
@@ -1143,14 +1147,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mRoute.getId() == 102L) {
 			if (gTrip.getDirectionId() == 1) { // Natural Science - NORTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Natural Science via Western/Wharncliffe" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Downtown - SOUTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						StringUtils.EMPTY //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -1159,14 +1163,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mRoute.getId() == 106L) {
 			if (gTrip.getDirectionId() == 0) { // Natural Science - NORTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Natural Science via Richmond" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 1) { // ??? - SOUTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						StringUtils.EMPTY //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -1175,7 +1179,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mRoute.getId() == 104L) {
 			if (gTrip.getDirectionId() == 0) { // Fanshawe College - NORTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Fanshawe College via Oxford" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
@@ -1192,14 +1196,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			}
 		} else if (mRoute.getId() == 106L) {
 			if (gTrip.getDirectionId() == 0) { // Natural Science - NORTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Natural Science via Richmond" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 1) { // Downtown - SOUTH
-				if (Arrays.asList( //
+				if (Collections.singletonList( //
 						"Downtown via Richmond" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -1207,8 +1211,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			}
 		}
-		System.out.printf("\n%s: Unexpected trip %s!\n", mRoute.getId(), gTrip);
-		System.exit(-1);
+		MTLog.logFatal("%s: Unexpected trip %s!", mRoute.getId(), gTrip);
 	}
 
 	private static final String A = "A";
@@ -1731,40 +1734,39 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 		}
-		System.out.printf("\nUnexpected trips to merge %s & %s!\n", mTrip, mTripToMerge);
-		System.exit(-1);
+		MTLog.logFatal("Unexpected trips to merge %s & %s!", mTrip, mTripToMerge);
 		return false;
 	}
 
 	private static final Pattern ENDS_WITH_VIA = Pattern.compile("(via.*$)", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern AREA = Pattern.compile("((^|\\W){1}(area)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern AREA = Pattern.compile("((^|\\W)(area)(\\W|$))", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern ARGYLE_ = Pattern.compile("((^|\\W){1}(agyle)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern ARGYLE_ = Pattern.compile("((^|\\W)(agyle)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String ARGYLE_REPLACEMENT = "$2" + "Argyle" + "$4";
 
-	private static final Pattern DEVERON_ = Pattern.compile("((^|\\W){1}(deverion)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern DEVERON_ = Pattern.compile("((^|\\W)(deverion)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String DEVERON_REPLACEMENT = "$2" + "Deveron" + "$4";
 
-	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W){1}(industrial)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern INDUSTRIAL = Pattern.compile("((^|\\W)(industrial)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String INDUSTRIAL_REPLACEMENT = "$2" + INDUSTRIAL_SHORT + "$4";
 
-	private static final Pattern HOSPITAL_ = Pattern.compile("((^|\\W){1}(hosptial|hos)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern HOSPITAL_ = Pattern.compile("((^|\\W)(hosptial|hos)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String HOSPITAL_REPLACEMENT = "$2" + HOSPITAL_SHORT + "$4";
 
-	private static final Pattern MASONVILLE_ = Pattern.compile("((^|\\W){1}(masonvile|masvonille|masonvillel|masonville)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern MASONVILLE_ = Pattern.compile("((^|\\W)(masonvile|masvonille|masonvillel|masonville)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String MASONVILLE_REPLACEMENT = "$2" + MASONVILLE + "$4";
 
-	private static final Pattern ONLY_ = Pattern.compile("((^|\\W){1}(only)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern ONLY_ = Pattern.compile("((^|\\W)(only)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String ONLY_REPLACEMENT = "$2" + StringUtils.EMPTY + "$4";
 
-	private static final Pattern UNIVERSITY_OF_WESTERN_ONTARIO = Pattern.compile("((^|\\W){1}(univ western ontario|western university)(\\W|$){1})",
+	private static final Pattern UNIVERSITY_OF_WESTERN_ONTARIO = Pattern.compile("((^|\\W)(univ western ontario|western university)(\\W|$))",
 			Pattern.CASE_INSENSITIVE);
 	private static final String UNIVERSITY_OF_WESTERN_ONTARIO_REPLACEMENT = "$2" + UWO + "$4";
 
 	private static final Pattern STARTS_WITH_EXPRESS_TO = Pattern.compile("(^express to )", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern STARTS_WITH_TO = Pattern.compile("(([A-Z]{1}[\\s]+)?(.*)([\\s]?to )(.*))", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_TO = Pattern.compile("(([A-Z][\\s]+)?(.*)([\\s]?to )(.*))", Pattern.CASE_INSENSITIVE);
 	private static final String STARTS_WITH_TO_REPLACEMENT = "$2$5";
 
 	private static final Pattern STARTS_WITH_RSN = Pattern.compile("(^[\\d]+[\\s]?)", Pattern.CASE_INSENSITIVE);
@@ -1817,10 +1819,11 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		return super.getStopId(gStop); // used by real-time API
 	}
 
+	@NotNull
 	@Override
 	public String getStopCode(GStop gStop) {
 		if ("'".equals(gStop.getStopCode())) {
-			return null;
+			return StringUtils.EMPTY;
 		}
 		return super.getStopCode(gStop);
 	}
