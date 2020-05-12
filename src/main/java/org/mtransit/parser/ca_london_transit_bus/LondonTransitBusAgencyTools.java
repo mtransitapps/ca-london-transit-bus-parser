@@ -3,6 +3,7 @@ package org.mtransit.parser.ca_london_transit_bus;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.mtransit.parser.CleanUtils;
+import org.mtransit.parser.Constants;
 import org.mtransit.parser.DefaultAgencyTools;
 import org.mtransit.parser.MTLog;
 import org.mtransit.parser.Pair;
@@ -102,10 +103,50 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		return super.getRouteShortName(gRoute);
 	}
 
+	private static final Pattern STARTS_WITH_ROUTE_RSN = Pattern.compile("(^route [\\d]+[\\s]?)", Pattern.CASE_INSENSITIVE);
+
 	@Override
 	public String getRouteLongName(GRoute gRoute) {
 		String routeLongName = gRoute.getRouteLongName();
-		routeLongName = routeLongName.toLowerCase(Locale.ENGLISH);
+		if (Utils.isUppercaseOnly(routeLongName, true, true)) {
+			routeLongName = routeLongName.toLowerCase(Locale.ENGLISH);
+		}
+		routeLongName = STARTS_WITH_ROUTE_RSN.matcher(routeLongName).replaceAll(Constants.EMPTY);
+		if (StringUtils.isEmpty(routeLongName)) {
+			int rsn = Integer.parseInt(gRoute.getRouteShortName());
+			switch (rsn) {
+			// @formatter:off
+			case 1: return "Kipps Lane to Pond Mills Rd/King Edward";
+			case 12: return "Natural Science – Trafalgar Heights / Bonaventure";
+			case 13: return "Downtown – Argyle";
+			case 14: return "Fanshawe College – White Oaks Mall";
+			case 15: return "Byron – Argyle Mall";
+			case 16: return "University Hospital – Parkwood Institute";
+			case 17: return "Westmount Mall – Argyle Mall";
+			case 19: return "Downtown – Whitehills";
+			case 110: return "Natural Science to Barker at Huron";
+			case 112: return "Downtown – Wharncliffe & Wonderland";
+			case 113: return "White Oaks Mall – Masonville Place";
+			case 115: return "Huron Heights – Westmount Mall";
+			case 116: return "Masonville Mall – Pond Mills";
+			case 117: return "Argyle Mall to Byron/Riverbend";
+			case 119: return "Downtown – Stoney Creek";
+			case 120: return "Fanshawe College to Beaverbrook";
+			case 124: return "Talbot Village – Summerside";
+			case 125: return "Fanshawe College to Masonville Place";
+			case 127: return "Fanshawe College to Capulet";
+			case 128: return "White Oaks Mall – Lambeth";
+			case 130: return "White Oaks Mall to Cheese Factory Rd";
+			case 131: return "Alumni Hall – Hyde Park Power Centre";
+			case 133: return "Alumni Hall to Proudfoot";
+			case 134: return "Masonville Place to Alumni Hall/Natural Science";
+			case 135: return "Argyle Mall – Trafalgar Heights";
+			case 136: return "Fanshawe College to London Airport";
+			case 137: return "Argyle Mall to Neptune Crescent";
+			case 193: return "Express – White Oaks Mall to Masonville Place";
+			// @formatter:on
+			}
+		}
 		return CleanUtils.cleanLabel(routeLongName);
 	}
 
