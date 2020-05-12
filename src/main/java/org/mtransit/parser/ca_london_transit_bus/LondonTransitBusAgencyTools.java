@@ -117,33 +117,33 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			switch (rsn) {
 			// @formatter:off
 			case 1: return "Kipps Lane to Pond Mills Rd/King Edward";
-			case 12: return "Natural Science – Trafalgar Heights / Bonaventure";
-			case 13: return "Downtown – Argyle";
-			case 14: return "Fanshawe College – White Oaks Mall";
-			case 15: return "Byron – Argyle Mall";
-			case 16: return "University Hospital – Parkwood Institute";
-			case 17: return "Westmount Mall – Argyle Mall";
-			case 19: return "Downtown – Whitehills";
-			case 110: return "Natural Science to Barker at Huron";
-			case 112: return "Downtown – Wharncliffe & Wonderland";
-			case 113: return "White Oaks Mall – Masonville Place";
-			case 115: return "Huron Heights – Westmount Mall";
-			case 116: return "Masonville Mall – Pond Mills";
-			case 117: return "Argyle Mall to Byron/Riverbend";
-			case 119: return "Downtown – Stoney Creek";
-			case 120: return "Fanshawe College to Beaverbrook";
-			case 124: return "Talbot Village – Summerside";
-			case 125: return "Fanshawe College to Masonville Place";
-			case 127: return "Fanshawe College to Capulet";
-			case 128: return "White Oaks Mall – Lambeth";
-			case 130: return "White Oaks Mall to Cheese Factory Rd";
-			case 131: return "Alumni Hall – Hyde Park Power Centre";
-			case 133: return "Alumni Hall to Proudfoot";
-			case 134: return "Masonville Place to Alumni Hall/Natural Science";
-			case 135: return "Argyle Mall – Trafalgar Heights";
-			case 136: return "Fanshawe College to London Airport";
-			case 137: return "Argyle Mall to Neptune Crescent";
-			case 193: return "Express – White Oaks Mall to Masonville Place";
+			case 2: return "Natural Science – Trafalgar Heights / Bonaventure";
+			case 3: return "Downtown – Argyle";
+			case 4: return "Fanshawe College – White Oaks Mall";
+			case 5: return "Byron – Argyle Mall";
+			case 6: return "University Hospital – Parkwood Institute";
+			case 7: return "Westmount Mall – Argyle Mall";
+			case 9: return "Downtown – Whitehills";
+			case 10: return "Natural Science to Barker at Huron";
+			case 12: return "Downtown – Wharncliffe & Wonderland";
+			case 13: return "White Oaks Mall – Masonville Place";
+			case 15: return "Huron Heights – Westmount Mall";
+			case 16: return "Masonville Mall – Pond Mills";
+			case 17: return "Argyle Mall to Byron/Riverbend";
+			case 19: return "Downtown – Stoney Creek";
+			case 20: return "Fanshawe College to Beaverbrook";
+			case 24: return "Talbot Village – Summerside";
+			case 25: return "Fanshawe College to Masonville Place";
+			case 27: return "Fanshawe College to Capulet";
+			case 28: return "White Oaks Mall – Lambeth";
+			case 30: return "White Oaks Mall to Cheese Factory Rd";
+			case 31: return "Alumni Hall – Hyde Park Power Centre";
+			case 33: return "Alumni Hall to Proudfoot";
+			case 34: return "Masonville Place to Alumni Hall/Natural Science";
+			case 35: return "Argyle Mall – Trafalgar Heights";
+			case 36: return "Fanshawe College to London Airport";
+			case 37: return "Argyle Mall to Neptune Crescent";
+			case 93: return "Express – White Oaks Mall to Masonville Place";
 			// @formatter:on
 			}
 		}
