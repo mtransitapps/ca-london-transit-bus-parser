@@ -143,6 +143,8 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			case 35: return "Argyle Mall – Trafalgar Heights";
 			case 36: return "Fanshawe College to London Airport";
 			case 37: return "Argyle Mall to Neptune Crescent";
+			case 90: return "Masonville Mall - White Oaks Mall";
+			case 91: return "Fanshawe College - Oxford & Wonderland";
 			case 93: return "Express – White Oaks Mall to Masonville Place";
 			// @formatter:on
 			}
@@ -174,36 +176,64 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
-		map2.put(31L, new RouteTripSpec(31L, //
+		map2.put(31L, new RouteTripSpec(31L, // SPLITTED BECAUSE NO HEAD-SIGN PROVIDED
 				LTC_EASTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Alumni Hall", //
 				LTC_WESTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Hyde Park Power Centre") //
 				.addTripSort(LTC_EASTBOUND, //
 						Arrays.asList(//
-								Stops.getALL_STOPS().get("1653"), // Seagull at Hyde Park WB - #1653
-								Stops.getALL_STOPS().get("142") // Alumni Hall WB - #142
+								Stops.getALL_STOPS().get("SEAGHYPK"), // Seagull at Hyde Park WB
+								Stops.getALL_STOPS().get("ALUMHAL2") // Alumni Hall WB
 						)) //
 				.addTripSort(LTC_WESTBOUND, //
 						Arrays.asList(//
-								Stops.getALL_STOPS().get("142"), // Alumni Hall WB - #142
-								Stops.getALL_STOPS().get("1653") // Seagull at Hyde Park WB - #1653
+								Stops.getALL_STOPS().get("ALUMHAL2"), // Alumni Hall WB
+								Stops.getALL_STOPS().get("SEAGHYPK") // Seagull at Hyde Park WB
 						)) //
 				.compileBothTripSort());
-		map2.put(34L, new RouteTripSpec(34L, //
+		map2.put(34L, new RouteTripSpec(34L, // SPLITTED BECAUSE SAME HEAD-SIGN before "via"
 				LTC_CW, MTrip.HEADSIGN_TYPE_STRING, "CW via Natural Science", // "Masonville Pl", //
 				LTC_CCW, MTrip.HEADSIGN_TYPE_STRING, "CCW via Alumni Hall") // "Masonville Pl") //
 				.addTripSort(LTC_CW, //
 						Arrays.asList(//
-								Stops.getALL_STOPS().get("1141"), // Masonville Place Stop #2 - #1141
-								Stops.getALL_STOPS().get("2879"), // Stackhouse at Fanshawe SB - #2879
-								Stops.getALL_STOPS().get("1141") // Masonville Place Stop #2 - #1141
+								Stops.getALL_STOPS().get("MASOSTO2"), // Masonville Place Stop #2
+								Stops.getALL_STOPS().get("STACFAN1"), // Stackhouse at Fanshawe SB
+								Stops.getALL_STOPS().get("MASOSTO2") // Masonville Place Stop #2
 						)) //
 				.addTripSort(LTC_CCW, //
 						Arrays.asList(//
-								Stops.getALL_STOPS().get("1142"), // Masonville Place Stop #3 - #1142
-								Stops.getALL_STOPS().get("141"), // Alumni Hall EB - #141
-								Stops.getALL_STOPS().get("1142") // Masonville Place Stop #3 - #1142
+								Stops.getALL_STOPS().get("MASOSTO3"), // Masonville Place Stop #3
+								Stops.getALL_STOPS().get("ALUMHAL1"), // Alumni Hall EB
+								Stops.getALL_STOPS().get("MASOSTO3") // Masonville Place Stop #3
 						)) //
 				.compileBothTripSort());
+		map2.put(90L, new RouteTripSpec(90L, // SPLITTED BECAUSE NO HEAD-SIGN PROVIDED
+				LTC_NORTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Masonville Mall", //
+				LTC_SOUTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "White Oaks Mall") //
+				.addTripSort(LTC_NORTHBOUND, //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("MASOSTO4"), // Masonville Place Stop #4
+								Stops.getALL_STOPS().get("WHITOMA3") // White Oaks Mall Stop 3
+						)) //
+				.addTripSort(LTC_SOUTHBOUND, //
+						Arrays.asList(//
+								Stops.getALL_STOPS().get("WHITOMA3"), // White Oaks Mall Stop 3
+								Stops.getALL_STOPS().get("MASOSTO4") // Masonville Place Stop #4
+						)) //
+				.compileBothTripSort());
+		map2.put(91L, new RouteTripSpec(91L, // SPLITTED BECAUSE NO HEAD-SIGN PROVIDED
+					LTC_EASTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Fanshawe College", //
+					LTC_WESTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Oxford & Wonderland") //
+					.addTripSort(LTC_EASTBOUND, //
+							Arrays.asList(//
+									Stops.getALL_STOPS().get("CAPUOXFO"), // Capulet Lane at Oxford SB
+									Stops.getALL_STOPS().get("FANCOLL1") // Fanshawe College Stop 1
+							)) //
+					.addTripSort(LTC_WESTBOUND, //
+							Arrays.asList(//
+									Stops.getALL_STOPS().get("FANCOLL1"), // Fanshawe College Stop 1
+									Stops.getALL_STOPS().get("CAPUOXFO") // Capulet Lane at Oxford SB
+							)) //
+					.compileBothTripSort());
 		map2.put(102L, new RouteTripSpec(102L, //
 				LTC_NORTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Natural Science", //
 				LTC_SOUTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
@@ -300,6 +330,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						StringUtils.EMPTY, //
 						"Shelbourne and Deveron", //
 						"Adelaide and Huron Only", //
+						"To Adelaide and Huron Only", //
 						"1 to Adelaide & Huron Only", //
 						"1 Wellington & Dundas Only", //
 						"Wellington & Dundas Only", //
@@ -320,17 +351,20 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			if (gTrip.getDirectionId() == 0) { // Argyle Mall / Bonaventure - EAST
 				if (Arrays.asList( //
 						StringUtils.EMPTY, //
+						"To Dundas and Highbury Only", //
 						"2 to Dundas and Highbury Only", //
 						"2 to Dundas & Highbury Only", //
 						"2 Dundas & Highbury Only", //
 						"Dundas & Highbury Only", //
 						"2A", //
+						"2A to Trafalgar & Hudson", //
 						"2A Trafalgar Heights Only", //
 						"2A to Trafalgar Heights", //
 						"Trafalgar Heights Only", //
 						"2A Trafalgar Heigths via Argyle Mall", //
 						"2B Bonaventure via Dundas", //
 						"Bonaventure via Dundas", //
+						"to Argyle Mall Only", //
 						"2A Argyle Mall via Hale & Trafalgar", //
 						"Argyle Mall via Hale & Trafalgar" //
 				).contains(gTrip.getTripHeadsign())) {
@@ -342,6 +376,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						StringUtils.EMPTY, //
 						"2B Argyle Mall Only", //
 						"Argyle Mall Only", //
+						"2A to Hale and Brydges Only", //
 						"2 to Natural Science via Dundas", //
 						"2 Natural Science via Dundas", //
 						"2A", //
@@ -1111,7 +1146,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 0) { // White Oaks Mall - SOUTH
-				if (Collections.singletonList( //
+				if (Arrays.asList( //
 						"Express to White Oaks Mall" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -1252,7 +1287,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			}
 		}
-		MTLog.logFatal("%s: Unexpected trip %s!", mRoute.getId(), gTrip);
+		throw new MTLog.Fatal("%s: Unexpected trip %s!", mRoute.getId(), gTrip.toStringPlus());
 	}
 
 	private static final String A = "A";
@@ -1300,6 +1335,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					"Dundas & Highbury", //
 					A_ + "Trafalgar Hts", //
 					A_ + "Trafalgar Heigths", // !
+					A_ + "Trafalgar & Hudson", //
 					"Trafalgar Hts", //
 					A_ + "Argyle Mall", // <>
 					"Argyle Mall", // <>
@@ -1313,6 +1349,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					"Argyle Mall", // <>
 					B_ + "Argyle Mall", //
 					A, //
+					A_ + "Hale & Brydges", //
 					A_ + "Natural Science", //
 					B_ + "Natural Science", //
 					"Natural Science" //
