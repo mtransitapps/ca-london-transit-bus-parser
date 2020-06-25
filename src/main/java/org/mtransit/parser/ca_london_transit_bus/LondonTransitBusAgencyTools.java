@@ -181,13 +181,13 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				LTC_WESTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Hyde Park Power Centre") //
 				.addTripSort(LTC_EASTBOUND, //
 						Arrays.asList(//
-								Stops.getALL_STOPS().get("SEAGHYPK"), // Seagull at Hyde Park WB
-								Stops.getALL_STOPS().get("ALUMHAL2") // Alumni Hall WB
+								Stops.getALL_STOPS().get("1653"), // Seagull at Hyde Park WB
+								Stops.getALL_STOPS().get("142") // Alumni Hall WB
 						)) //
 				.addTripSort(LTC_WESTBOUND, //
 						Arrays.asList(//
-								Stops.getALL_STOPS().get("ALUMHAL2"), // Alumni Hall WB
-								Stops.getALL_STOPS().get("SEAGHYPK") // Seagull at Hyde Park WB
+								Stops.getALL_STOPS().get("142"), // Alumni Hall WB
+								Stops.getALL_STOPS().get("1653") // Seagull at Hyde Park WB
 						)) //
 				.compileBothTripSort());
 		map2.put(34L, new RouteTripSpec(34L, // SPLITTED BECAUSE SAME HEAD-SIGN before "via"
@@ -195,15 +195,15 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				LTC_CCW, MTrip.HEADSIGN_TYPE_STRING, "CCW via Alumni Hall") // "Masonville Pl") //
 				.addTripSort(LTC_CW, //
 						Arrays.asList(//
-								Stops.getALL_STOPS().get("MASOSTO2"), // Masonville Place Stop #2
-								Stops.getALL_STOPS().get("STACFAN1"), // Stackhouse at Fanshawe SB
-								Stops.getALL_STOPS().get("MASOSTO2") // Masonville Place Stop #2
+								Stops.getALL_STOPS().get("1141"), // Masonville Place Stop #2
+								Stops.getALL_STOPS().get("2879"), // Stackhouse at Fanshawe SB
+								Stops.getALL_STOPS().get("1141") // Masonville Place Stop #2
 						)) //
 				.addTripSort(LTC_CCW, //
 						Arrays.asList(//
-								Stops.getALL_STOPS().get("MASOSTO3"), // Masonville Place Stop #3
-								Stops.getALL_STOPS().get("ALUMHAL1"), // Alumni Hall EB
-								Stops.getALL_STOPS().get("MASOSTO3") // Masonville Place Stop #3
+								Stops.getALL_STOPS().get("1142"), // Masonville Place Stop #3
+								Stops.getALL_STOPS().get("141"), // Alumni Hall EB
+								Stops.getALL_STOPS().get("1142") // Masonville Place Stop #3
 						)) //
 				.compileBothTripSort());
 		map2.put(90L, new RouteTripSpec(90L, // SPLITTED BECAUSE NO HEAD-SIGN PROVIDED
@@ -211,13 +211,13 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				LTC_SOUTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "White Oaks Mall") //
 				.addTripSort(LTC_NORTHBOUND, //
 						Arrays.asList(//
-								Stops.getALL_STOPS().get("MASOSTO4"), // Masonville Place Stop #4
-								Stops.getALL_STOPS().get("WHITOMA3") // White Oaks Mall Stop 3
+								Stops.getALL_STOPS().get("1143"), // Masonville Place Stop #4
+								Stops.getALL_STOPS().get("2062") // White Oaks Mall Stop 3
 						)) //
 				.addTripSort(LTC_SOUTHBOUND, //
 						Arrays.asList(//
-								Stops.getALL_STOPS().get("WHITOMA3"), // White Oaks Mall Stop 3
-								Stops.getALL_STOPS().get("MASOSTO4") // Masonville Place Stop #4
+								Stops.getALL_STOPS().get("2062"), // White Oaks Mall Stop 3
+								Stops.getALL_STOPS().get("1143") // Masonville Place Stop #4
 						)) //
 				.compileBothTripSort());
 		map2.put(91L, new RouteTripSpec(91L, // SPLITTED BECAUSE NO HEAD-SIGN PROVIDED
@@ -225,13 +225,13 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					LTC_WESTBOUND, MTrip.HEADSIGN_TYPE_STRING, "Oxford & Wonderland") //
 					.addTripSort(LTC_EASTBOUND, //
 							Arrays.asList(//
-									Stops.getALL_STOPS().get("CAPUOXFO"), // Capulet Lane at Oxford SB
-									Stops.getALL_STOPS().get("FANCOLL1") // Fanshawe College Stop 1
+									Stops.getALL_STOPS().get("2390"), // Capulet Lane at Oxford SB
+									Stops.getALL_STOPS().get("2331") // Fanshawe College Stop 1
 							)) //
 					.addTripSort(LTC_WESTBOUND, //
 							Arrays.asList(//
-									Stops.getALL_STOPS().get("FANCOLL1"), // Fanshawe College Stop 1
-									Stops.getALL_STOPS().get("CAPUOXFO") // Capulet Lane at Oxford SB
+									Stops.getALL_STOPS().get("2331"), // Fanshawe College Stop 1
+									Stops.getALL_STOPS().get("2390") // Capulet Lane at Oxford SB
 							)) //
 					.compileBothTripSort());
 		map2.put(102L, new RouteTripSpec(102L, //
