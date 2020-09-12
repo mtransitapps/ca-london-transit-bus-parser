@@ -145,9 +145,14 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			case 37: return "Argyle Mall to Neptune Crescent";
 			case 90: return "Masonville Mall - White Oaks Mall";
 			case 91: return "Fanshawe College - Oxford & Wonderland";
-			case 93: return "Express – White Oaks Mall to Masonville Place";
+			case 93: return "White Oaks Mall to Masonville Place";
+			case 94: return "Express: Natural Science – Argyle Mall";
+			case 102: return "Downtown – Natural Science";
+			case 104: return "Ridout @ Grand – Fanshawe College";
+			case 106: return "Downtown to Natural Science";
 			// @formatter:on
 			}
+			throw new MTLog.Fatal("Unexpected route long name for %s!", gRoute.toStringPlus());
 		}
 		return CleanUtils.cleanLabel(routeLongName);
 	}
@@ -204,20 +209,6 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 								Stops.getALL_STOPS().get("MASOSTO3"), Stops.getALL_STOPS().get("1142"), // Masonville Place Stop #3
 								Stops.getALL_STOPS().get("ALUMHAL1"), Stops.getALL_STOPS().get("141"), // Alumni Hall EB
 								Stops.getALL_STOPS().get("MASOSTO3"), Stops.getALL_STOPS().get("1142") // Masonville Place Stop #3
-						)) //
-				.compileBothTripSort());
-		map2.put(90L, new RouteTripSpec(90L, // SPLITTED BECAUSE NO HEAD-SIGN PROVIDED
-				LTC_NORTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Masonville Mall", //
-				LTC_SOUTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "White Oaks Mall") //
-				.addTripSort(LTC_NORTHBOUND, //
-						Arrays.asList(//
-								Stops.getALL_STOPS().get("MASOSTO4"), Stops.getALL_STOPS().get("1143"), // Masonville Place Stop #4
-								Stops.getALL_STOPS().get("WHITOMA3"), Stops.getALL_STOPS().get("2062") // White Oaks Mall Stop 3
-						)) //
-				.addTripSort(LTC_SOUTHBOUND, //
-						Arrays.asList(//
-								Stops.getALL_STOPS().get("WHITOMA3"), Stops.getALL_STOPS().get("2062"), // White Oaks Mall Stop 3
-								Stops.getALL_STOPS().get("MASOSTO4"), Stops.getALL_STOPS().get("1143") // Masonville Place Stop #4
 						)) //
 				.compileBothTripSort());
 		map2.put(91L, new RouteTripSpec(91L, // SPLITTED BECAUSE NO HEAD-SIGN PROVIDED
@@ -360,11 +351,13 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"2A to Trafalgar & Hudson", //
 						"2A Trafalgar Heights Only", //
 						"2A to Trafalgar Heights", //
+						"2A Trafalgar and Hudson", //
 						"Trafalgar Heights Only", //
 						"2A Trafalgar Heigths via Argyle Mall", //
 						"2B Bonaventure via Dundas", //
 						"Bonaventure via Dundas", //
 						"to Argyle Mall Only", //
+						"to Dundas and Highbury Only", //
 						"2A Argyle Mall via Hale & Trafalgar", //
 						"Argyle Mall via Hale & Trafalgar" //
 				).contains(gTrip.getTripHeadsign())) {
@@ -377,6 +370,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 						"2B Argyle Mall Only", //
 						"Argyle Mall Only", //
 						"2A to Hale and Brydges Only", //
+						"2A Hale and Brydges Only", //
 						"2 to Natural Science via Dundas", //
 						"2 Natural Science via Dundas", //
 						"2A", //
@@ -1147,6 +1141,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 0) { // White Oaks Mall - SOUTH
 				if (Arrays.asList( //
+						"", //
 						"Express to White Oaks Mall" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
@@ -1812,8 +1807,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				return true;
 			}
 		}
-		MTLog.logFatal("Unexpected trips to merge %s & %s!", mTrip, mTripToMerge);
-		return false;
+		throw new MTLog.Fatal("Unexpected trips to merge %s & %s!", mTrip, mTripToMerge);
 	}
 
 	private static final Pattern ENDS_WITH_VIA = Pattern.compile("(via.*$)", Pattern.CASE_INSENSITIVE);
