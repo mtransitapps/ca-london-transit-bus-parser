@@ -225,22 +225,6 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 									Stops.getALL_STOPS().get("CAPUOXFO"), Stops.getALL_STOPS().get("2390") // Capulet Lane at Oxford SB
 							)) //
 					.compileBothTripSort());
-		map2.put(102L, new RouteTripSpec(102L, //
-				LTC_NORTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Natural Science", //
-				LTC_SOUTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
-				.addTripSort(LTC_NORTHBOUND, //
-						Arrays.asList(//
-								Stops.getALL_STOPS().get("QUEERIC1"), Stops.getALL_STOPS().get("2737"), // Queens at Richmond WB - #2737
-								Stops.getALL_STOPS().get("NATSCI"), Stops.getALL_STOPS().get("1222") // Natural Science - #1222
-						)) //
-				.addTripSort(LTC_SOUTHBOUND, //
-						Arrays.asList(//
-								Stops.getALL_STOPS().get("NATSCI"), Stops.getALL_STOPS().get("1222"), // Natural Science - #1222
-								Stops.getALL_STOPS().get("KINGCLAR"), Stops.getALL_STOPS().get("1080"), // King at Clarence EB - #1080
-								Stops.getALL_STOPS().get("WELLDUN3"), Stops.getALL_STOPS().get("1939"), // Wellington South of Dundas St NB - #1939
-								Stops.getALL_STOPS().get("QUEERIC1"), Stops.getALL_STOPS().get("2737") // Queens at Richmond WB - #2737
-						)) //
-				.compileBothTripSort());
 		map2.put(106L, new RouteTripSpec(106L, //
 				LTC_NORTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Natural Science", //
 				LTC_SOUTHBOUND, MTrip.HEADSIGN_TYPE_STRING, "Downtown") //
@@ -1035,6 +1019,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Trafalgar Heights - SOUTH
 				if (Arrays.asList( //
+						StringUtils.EMPTY, //
 						"Argyle Mall via Marconi", // <>
 						"Trafalgar Heights", //
 						"Trafalgar Heights via Marconi" //
@@ -1225,8 +1210,10 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			} else if (gTrip.getDirectionId() == 0) { // Downtown - SOUTH
-				if (Collections.singletonList( //
-						StringUtils.EMPTY //
+				if (Arrays.asList( //
+						StringUtils.EMPTY, //
+						"King and Clarence Only", //
+						"Downtown via Richmond" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
 					return;
@@ -1793,6 +1780,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			if (Arrays.asList( //
 					"Richmond @ King", //
 					"King & Richmond", //
+					"King & Clarence", //
 					"Downtown" //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString("Downtown", mTrip.getHeadsignId());
