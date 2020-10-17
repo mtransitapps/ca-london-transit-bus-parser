@@ -1219,22 +1219,6 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 					return;
 				}
 			}
-		} else if (mRoute.getId() == 106L) {
-			if (gTrip.getDirectionId() == 0) { // Natural Science - NORTH
-				if (Collections.singletonList( //
-						"Natural Science via Richmond" //
-				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_NORTHBOUND);
-					return;
-				}
-			} else if (gTrip.getDirectionId() == 1) { // ??? - SOUTH
-				if (Collections.singletonList( //
-						StringUtils.EMPTY //
-				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), LTC_SOUTHBOUND);
-					return;
-				}
-			}
 		} else if (mRoute.getId() == 104L) {
 			if (gTrip.getDirectionId() == 0) { // Fanshawe College - NORTH
 				if (Collections.singletonList( //
@@ -1876,7 +1860,32 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public int getStopId(GStop gStop) {
-		return super.getStopId(gStop); // used by real-time API
+		if (!Utils.isDigitsOnly(gStop.getStopId())) {
+			if (!gStop.getStopCode().isEmpty()
+				&& Utils.isDigitsOnly(gStop.getStopCode())) {
+				return Integer.parseInt(gStop.getStopCode());
+			}
+			if ("DUFFWATS".equalsIgnoreCase(gStop.getStopId())) {
+				return 2836;
+			}
+			if ("WELLBAS3".equalsIgnoreCase(gStop.getStopId())) {
+				return 2434;
+			}
+			if ("SDALNIXO".equalsIgnoreCase(gStop.getStopId())) {
+				return 69;
+			}
+			if ("MCMAWON2".equalsIgnoreCase(gStop.getStopId())) {
+				return 2001;
+			}
+			if ("STACFANS".equalsIgnoreCase(gStop.getStopId())) {
+				return 3838;
+			}
+			if ("WESTLAM1".equalsIgnoreCase(gStop.getStopId())) {
+				return 2453;
+			}
+			throw new MTLog.Fatal("Unexpected stop ID for %s!", gStop.toStringPlus());
+		}
+		return super.getStopId(gStop); // used by real-time API https://realtime.londontransit.ca/ // TODO GTFS-RT
 	}
 
 	@NotNull
