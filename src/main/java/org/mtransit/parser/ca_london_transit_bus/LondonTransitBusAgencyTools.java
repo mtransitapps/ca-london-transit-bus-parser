@@ -2,6 +2,7 @@ package org.mtransit.parser.ca_london_transit_bus;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.Constants;
 import org.mtransit.parser.DefaultAgencyTools;
@@ -35,7 +36,7 @@ import java.util.regex.Pattern;
 // http://www.londontransit.ca/gtfsfeed/google_transit.zip
 public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
-	public static void main(String[] args) {
+	public static void main(@Nullable String[] args) {
 		if (args == null || args.length == 0) {
 			args = new String[3];
 			args[0] = "input/gtfs.zip";
@@ -48,7 +49,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	private HashSet<String> serviceIds;
 
 	@Override
-	public void start(String[] args) {
+	public void start(@NotNull String[] args) {
 		MTLog.log("Generating London Transit bus data...");
 		long start = System.currentTimeMillis();
 		this.serviceIds = extractUsefulServiceIds(args, this, true);
@@ -62,7 +63,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public boolean excludeCalendar(GCalendar gCalendar) {
+	public boolean excludeCalendar(@NotNull GCalendar gCalendar) {
 		if (this.serviceIds != null) {
 			return excludeUselessCalendar(gCalendar, this.serviceIds);
 		}
@@ -70,7 +71,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public boolean excludeCalendarDate(GCalendarDate gCalendarDates) {
+	public boolean excludeCalendarDate(@NotNull GCalendarDate gCalendarDates) {
 		if (this.serviceIds != null) {
 			return excludeUselessCalendarDate(gCalendarDates, this.serviceIds);
 		}
@@ -78,25 +79,27 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public boolean excludeTrip(GTrip gTrip) {
+	public boolean excludeTrip(@NotNull GTrip gTrip) {
 		if (this.serviceIds != null) {
 			return excludeUselessTrip(gTrip, this.serviceIds);
 		}
 		return super.excludeTrip(gTrip);
 	}
 
+	@NotNull
 	@Override
 	public Integer getAgencyRouteType() {
 		return MAgency.ROUTE_TYPE_BUS;
 	}
 
 	@Override
-	public long getRouteId(GRoute gRoute) {
+	public long getRouteId(@NotNull GRoute gRoute) {
 		return Long.parseLong(gRoute.getRouteShortName()); // use route short name as route ID
 	}
 
+	@Nullable
 	@Override
-	public String getRouteShortName(GRoute gRoute) {
+	public String getRouteShortName(@NotNull GRoute gRoute) {
 		if (Utils.isDigitsOnly(gRoute.getRouteShortName())) {
 			return String.valueOf(Integer.parseInt(gRoute.getRouteShortName())); // remove leading 0
 		}
@@ -105,8 +108,9 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern STARTS_WITH_ROUTE_RSN = Pattern.compile("(^route [\\d]+[\\s]?)", Pattern.CASE_INSENSITIVE);
 
+	@NotNull
 	@Override
-	public String getRouteLongName(GRoute gRoute) {
+	public String getRouteLongName(@NotNull GRoute gRoute) {
 		String routeLongName = gRoute.getRouteLongName();
 		if (Utils.isUppercaseOnly(routeLongName, true, true)) {
 			routeLongName = routeLongName.toLowerCase(Locale.ENGLISH);
@@ -161,6 +165,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final String AGENCY_COLOR = AGENCY_COLOR_GREEN;
 
+	@NotNull
 	@Override
 	public String getAgencyColor() {
 		return AGENCY_COLOR;
@@ -177,7 +182,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final int LTC_HURON_AND_BARKER = 101;
 	private static final int LTC_WESTERN = 102;
 
-	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
+	private static final HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 
 	static {
 		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
@@ -1262,7 +1267,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final String C_ = "C ";
 
 	@Override
-	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
+	public boolean mergeHeadsign(@NotNull MTrip mTrip, @NotNull MTrip mTripToMerge) {
 		if (MTrip.mergeEmpty(mTrip, mTripToMerge)) {
 			return true;
 		}
@@ -1815,8 +1820,9 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern STARTS_WITH_RSN = Pattern.compile("(^[\\d]+[\\s]?)", Pattern.CASE_INSENSITIVE);
 
+	@NotNull
 	@Override
-	public String cleanTripHeadsign(String tripHeadsign) {
+	public String cleanTripHeadsign(@NotNull String tripHeadsign) {
 		if (Utils.isUppercaseOnly(tripHeadsign, true, true)) {
 			tripHeadsign = tripHeadsign.toLowerCase(Locale.ENGLISH);
 		}
@@ -1842,8 +1848,9 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern ENDS_WITH_STOP_CODE = Pattern.compile("( - #[\\d]*[\\w]*[']*$)", Pattern.CASE_INSENSITIVE);
 
+	@NotNull
 	@Override
-	public String cleanStopName(String gStopName) {
+	public String cleanStopName(@NotNull String gStopName) {
 		if (Utils.isUppercaseOnly(gStopName, true, true)) {
 			gStopName = gStopName.toLowerCase(Locale.ENGLISH);
 		}
@@ -1859,28 +1866,30 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public int getStopId(GStop gStop) {
-		if (!Utils.isDigitsOnly(gStop.getStopId())) {
+	public int getStopId(@NotNull GStop gStop) {
+		//noinspection deprecation
+		final String stopId = gStop.getStopId();
+		if (!Utils.isDigitsOnly(stopId)) {
 			if (!gStop.getStopCode().isEmpty()
 				&& Utils.isDigitsOnly(gStop.getStopCode())) {
 				return Integer.parseInt(gStop.getStopCode());
 			}
-			if ("DUFFWATS".equalsIgnoreCase(gStop.getStopId())) {
+			if ("DUFFWATS".equalsIgnoreCase(stopId)) {
 				return 2836;
 			}
-			if ("WELLBAS3".equalsIgnoreCase(gStop.getStopId())) {
+			if ("WELLBAS3".equalsIgnoreCase(stopId)) {
 				return 2434;
 			}
-			if ("SDALNIXO".equalsIgnoreCase(gStop.getStopId())) {
+			if ("SDALNIXO".equalsIgnoreCase(stopId)) {
 				return 69;
 			}
-			if ("MCMAWON2".equalsIgnoreCase(gStop.getStopId())) {
+			if ("MCMAWON2".equalsIgnoreCase(stopId)) {
 				return 2001;
 			}
-			if ("STACFANS".equalsIgnoreCase(gStop.getStopId())) {
+			if ("STACFANS".equalsIgnoreCase(stopId)) {
 				return 3838;
 			}
-			if ("WESTLAM1".equalsIgnoreCase(gStop.getStopId())) {
+			if ("WESTLAM1".equalsIgnoreCase(stopId)) {
 				return 2453;
 			}
 			throw new MTLog.Fatal("Unexpected stop ID for %s!", gStop.toStringPlus());
@@ -1890,7 +1899,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@NotNull
 	@Override
-	public String getStopCode(GStop gStop) {
+	public String getStopCode(@NotNull GStop gStop) {
 		if ("'".equals(gStop.getStopCode())) {
 			return StringUtils.EMPTY;
 		}
