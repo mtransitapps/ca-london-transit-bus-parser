@@ -1,24 +1,19 @@
 package org.mtransit.parser.ca_london_transit_bus;
 
+import static org.mtransit.commons.StringUtils.EMPTY;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mtransit.commons.CharUtils;
 import org.mtransit.commons.CleanUtils;
-import org.mtransit.commons.StringUtils;
 import org.mtransit.parser.DefaultAgencyTools;
 import org.mtransit.parser.MTLog;
-import org.mtransit.parser.gtfs.data.GRoute;
-import org.mtransit.parser.gtfs.data.GSpec;
 import org.mtransit.parser.gtfs.data.GStop;
-import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.mt.data.MAgency;
-import org.mtransit.parser.mt.data.MRoute;
-import org.mtransit.parser.mt.data.MTrip;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
-
-import static org.mtransit.commons.StringUtils.EMPTY;
 
 // https://www.londontransit.ca/open-data/
 // https://www.londontransit.ca/gtfsfeed/google_transit.zip
@@ -26,6 +21,12 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(@NotNull String[] args) {
 		new LondonTransitBusAgencyTools().start(args);
+	}
+
+	@Nullable
+	@Override
+	public List<Locale> getSupportedLanguages() {
+		return LANG_EN;
 	}
 
 	@Override
@@ -46,70 +47,40 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
-	public long getRouteId(@NotNull GRoute gRoute) {
-		return Long.parseLong(gRoute.getRouteShortName()); // use route short name as route ID
+	public boolean defaultRouteIdEnabled() {
+		return true;
 	}
 
-	@Nullable
 	@Override
-	public String getRouteShortName(@NotNull GRoute gRoute) {
-		if (CharUtils.isDigitsOnly(gRoute.getRouteShortName())) {
-			return String.valueOf(Integer.parseInt(gRoute.getRouteShortName())); // remove leading 0
-		}
-		return super.getRouteShortName(gRoute);
+	public boolean useRouteShortNameForRouteId() {
+		return true;
+	}
+
+	@NotNull
+	@Override
+	public String cleanRouteShortName(@NotNull String routeShortName) {
+		routeShortName = String.valueOf(Integer.parseInt(routeShortName)); // remove leading 0
+		return super.cleanRouteShortName(routeShortName);
 	}
 
 	private static final Pattern STARTS_WITH_ROUTE_RSN = Pattern.compile("(^route [\\d]+[\\s]?)", Pattern.CASE_INSENSITIVE);
 
+	@Override
+	public boolean defaultRouteLongNameEnabled() {
+		return true;
+	}
+
 	@NotNull
 	@Override
-	public String getRouteLongName(@NotNull GRoute gRoute) {
-		String routeLongName = gRoute.getRouteLongNameOrDefault();
+	public String cleanRouteLongName(@NotNull String routeLongName) {
 		routeLongName = CleanUtils.toLowerCaseUpperCaseWords(Locale.ENGLISH, routeLongName, getIgnoredWords());
 		routeLongName = STARTS_WITH_ROUTE_RSN.matcher(routeLongName).replaceAll(EMPTY);
-		if (StringUtils.isEmpty(routeLongName)) {
-			int rsn = Integer.parseInt(gRoute.getRouteShortName());
-			switch (rsn) {
-			// @formatter:off
-			case 1: return "Kipps Lane to Pond Mills Rd/King Edward";
-			case 2: return "Natural Science – Trafalgar Heights / Bonaventure";
-			case 3: return "Downtown – Argyle";
-			case 4: return "Fanshawe College – White Oaks Mall";
-			case 5: return "Byron – Argyle Mall";
-			case 6: return "University Hospital – Parkwood Institute";
-			case 7: return "Westmount Mall – Argyle Mall";
-			case 9: return "Downtown – Whitehills";
-			case 10: return "Natural Science to Barker at Huron";
-			case 12: return "Downtown – Wharncliffe & Wonderland";
-			case 13: return "White Oaks Mall – Masonville Place";
-			case 15: return "Huron Heights – Westmount Mall";
-			case 16: return "Masonville Mall – Pond Mills";
-			case 17: return "Argyle Mall to Byron/Riverbend";
-			case 19: return "Downtown – Stoney Creek";
-			case 20: return "Fanshawe College to Beaverbrook";
-			case 24: return "Talbot Village – Summerside";
-			case 25: return "Fanshawe College to Masonville Place";
-			case 27: return "Fanshawe College to Capulet";
-			case 28: return "White Oaks Mall – Lambeth";
-			case 30: return "White Oaks Mall to Cheese Factory Rd";
-			case 31: return "Alumni Hall – Hyde Park Power Centre";
-			case 33: return "Alumni Hall to Proudfoot";
-			case 34: return "Masonville Place to Alumni Hall/Natural Science";
-			case 35: return "Argyle Mall – Trafalgar Heights";
-			case 36: return "Fanshawe College to London Airport";
-			case 37: return "Argyle Mall to Neptune Crescent";
-			case 90: return "Masonville Mall - White Oaks Mall";
-			case 91: return "Fanshawe College - Oxford & Wonderland";
-			case 93: return "White Oaks Mall to Masonville Place";
-			case 94: return "Express: Natural Science – Argyle Mall";
-			case 102: return "Downtown – Natural Science";
-			case 104: return "Ridout @ Grand – Fanshawe College";
-			case 106: return "Downtown to Natural Science";
-			// @formatter:on
-			}
-			throw new MTLog.Fatal("Unexpected route long name for %s!", gRoute.toStringPlus());
-		}
 		return CleanUtils.cleanLabel(routeLongName);
+	}
+
+	@Override
+	public boolean defaultAgencyColorEnabled() {
+		return true;
 	}
 
 	private static final String AGENCY_COLOR_GREEN = "009F60"; // GREEN (from web site CSS)
@@ -120,14 +91,6 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public String getAgencyColor() {
 		return AGENCY_COLOR;
-	}
-
-	@Override
-	public void setTripHeadsign(@NotNull MRoute mRoute, @NotNull MTrip mTrip, @NotNull GTrip gTrip, @NotNull GSpec gtfs) {
-		mTrip.setHeadsignString(
-				cleanTripHeadsign(gTrip.getTripHeadsignOrDefault()),
-				gTrip.getDirectionIdOrDefault()
-		);
 	}
 
 	@Override
@@ -152,11 +115,6 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		return directionHeadSign;
 	}
 
-	@Override
-	public boolean mergeHeadsign(@NotNull MTrip mTrip, @NotNull MTrip mTripToMerge) {
-		throw new MTLog.Fatal("Unexpected trips to merge %s & %s!", mTrip, mTripToMerge);
-	}
-
 	private static final Pattern AREA = Pattern.compile("((^|\\W)(area)(\\W|$))", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern ARGYLE_ = Pattern.compile("((^|\\W)(agyle)(\\W|$))", Pattern.CASE_INSENSITIVE);
@@ -165,21 +123,18 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	private static final Pattern DEVERON_ = Pattern.compile("((^|\\W)(deverion)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String DEVERON_REPLACEMENT = "$2" + "Deveron" + "$4";
 
-	private static final String HOSPITAL_SHORT = "Hosp";
-	private static final Pattern HOSPITAL_ = Pattern.compile("((^|\\W)(hosptial|hos)(\\W|$))", Pattern.CASE_INSENSITIVE);
-	private static final String HOSPITAL_REPLACEMENT = "$2" + HOSPITAL_SHORT + "$4";
+	private static final Pattern FIX_HOSPITAL_ = Pattern.compile("((^|\\W)(hosptial|hos)(\\W|$))", Pattern.CASE_INSENSITIVE);
+	private static final String FIX_HOSPITAL_REPLACEMENT = "$2" + "hospital" + "$4";
 
-	private static final String MASONVILLE = "Masonville";
-	private static final Pattern MASONVILLE_ = Pattern.compile("((^|\\W)(masonvile|masvonille|masonvillel|masonville)(\\W|$))", Pattern.CASE_INSENSITIVE);
-	private static final String MASONVILLE_REPLACEMENT = "$2" + MASONVILLE + "$4";
+	private static final Pattern FIX_MASONVILLE_ = Pattern.compile("((^|\\W)(masonvile|masvonille|masonvillel|masonville)(\\W|$))", Pattern.CASE_INSENSITIVE);
+	private static final String FIX_MASONVILLE_REPLACEMENT = "$2" + "Masonville" + "$4";
 
 	private static final Pattern ONLY_ = Pattern.compile("((^|\\W)(only)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String ONLY_REPLACEMENT = "$2" + EMPTY + "$4";
 
-	private static final String UWO = "UWO";
 	private static final Pattern UNIVERSITY_OF_WESTERN_ONTARIO = Pattern.compile("((^|\\W)(univ western ontario|western university)(\\W|$))",
 			Pattern.CASE_INSENSITIVE);
-	private static final String UNIVERSITY_OF_WESTERN_ONTARIO_REPLACEMENT = "$2" + UWO + "$4";
+	private static final String UNIVERSITY_OF_WESTERN_ONTARIO_REPLACEMENT = "$2" + "UWO" + "$4";
 
 	private static final Pattern STARTS_WITH_EXPRESS_TO = Pattern.compile("(^express to )", Pattern.CASE_INSENSITIVE);
 
@@ -195,8 +150,8 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		tripHeadsign = AREA.matcher(tripHeadsign).replaceAll(EMPTY);
 		tripHeadsign = ARGYLE_.matcher(tripHeadsign).replaceAll(ARGYLE_REPLACEMENT);
 		tripHeadsign = DEVERON_.matcher(tripHeadsign).replaceAll(DEVERON_REPLACEMENT);
-		tripHeadsign = HOSPITAL_.matcher(tripHeadsign).replaceAll(HOSPITAL_REPLACEMENT);
-		tripHeadsign = MASONVILLE_.matcher(tripHeadsign).replaceAll(MASONVILLE_REPLACEMENT);
+		tripHeadsign = FIX_HOSPITAL_.matcher(tripHeadsign).replaceAll(FIX_HOSPITAL_REPLACEMENT);
+		tripHeadsign = FIX_MASONVILLE_.matcher(tripHeadsign).replaceAll(FIX_MASONVILLE_REPLACEMENT);
 		tripHeadsign = ONLY_.matcher(tripHeadsign).replaceAll(ONLY_REPLACEMENT);
 		tripHeadsign = UNIVERSITY_OF_WESTERN_ONTARIO.matcher(tripHeadsign).replaceAll(UNIVERSITY_OF_WESTERN_ONTARIO_REPLACEMENT);
 		tripHeadsign = CleanUtils.CLEAN_AT.matcher(tripHeadsign).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
@@ -223,7 +178,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	public String cleanStopName(@NotNull String gStopName) {
 		gStopName = CleanUtils.toLowerCaseUpperCaseWords(Locale.ENGLISH, gStopName, getIgnoredWords());
 		gStopName = ENDS_WITH_STOP_CODE.matcher(gStopName).replaceAll(EMPTY);
-		gStopName = HOSPITAL_.matcher(gStopName).replaceAll(HOSPITAL_REPLACEMENT);
+		gStopName = FIX_HOSPITAL_.matcher(gStopName).replaceAll(FIX_HOSPITAL_REPLACEMENT);
 		gStopName = CleanUtils.CLEAN_AND.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT);
 		gStopName = CleanUtils.CLEAN_AT.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
 		gStopName = CleanUtils.cleanBounds(gStopName);
