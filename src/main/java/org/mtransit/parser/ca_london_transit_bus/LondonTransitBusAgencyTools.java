@@ -193,29 +193,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		//noinspection deprecation
 		final String stopId = gStop.getStopId();
 		if (!CharUtils.isDigitsOnly(stopId)) {
-			if (!gStop.getStopCode().isEmpty()
-					&& CharUtils.isDigitsOnly(gStop.getStopCode())) {
-				return Integer.parseInt(gStop.getStopCode());
-			}
-			if ("DUFFWATS".equalsIgnoreCase(stopId)) {
-				return 2836;
-			}
-			if ("WELLBAS3".equalsIgnoreCase(stopId)) {
-				return 2434;
-			}
-			if ("SDALNIXO".equalsIgnoreCase(stopId)) {
-				return 69;
-			}
-			if ("MCMAWON2".equalsIgnoreCase(stopId)) {
-				return 2001;
-			}
-			if ("STACFANS".equalsIgnoreCase(stopId)) {
-				return 3838;
-			}
-			if ("WESTLAM1".equalsIgnoreCase(stopId)) {
-				return 2453;
-			}
-			throw new MTLog.Fatal("Unexpected stop ID for %s!", gStop.toStringPlus());
+			return Integer.parseInt(getStopCode(gStop));
 		}
 		return super.getStopId(gStop); // used by real-time API https://realtime.londontransit.ca/ // TODO GTFS-RT
 	}
@@ -223,8 +201,34 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	@NotNull
 	@Override
 	public String getStopCode(@NotNull GStop gStop) {
-		if ("'".equals(gStop.getStopCode())) {
-			return EMPTY;
+		String stopCode = gStop.getStopCode();
+		if ("'".equals(stopCode)) {
+			stopCode = EMPTY;
+		}
+		if (stopCode.isEmpty()) {
+			//noinspection deprecation
+			final String stopId = gStop.getStopId();
+			switch (stopId.toUpperCase(Locale.ENGLISH)) {
+				case "DUFFWATS": return "2836";
+				case "WELLBAS3": return "2434";
+				case "SDALNIXO": return "69"; // TODo ?
+				case "MCMAWON2": return "2001";
+				case "STACFANS": return "3838";
+				case "WESTLAM1": return "2453";
+				case "COLBCHEA": return "2796";
+				case "COLBGRO1": return "2797";
+				case "COLBSJM2": return "2801";
+				case "COLBOXFO": return "2799";
+				case "COLBSJM1": return "2800";
+				case "COLBGRO2": return "2709";
+				case "BARKMEL1": return "2788";
+				case "BARKKIPP": return "2787";
+				case "KIPPBEL1": return "2852";
+				case "KIPPADE1": return "2850";
+				case "BARKMELS": return "2789";
+				default:
+					throw new MTLog.Fatal("Unexpected stop code for %s!", gStop.toStringPlus());
+			}
 		}
 		return super.getStopCode(gStop);
 	}
