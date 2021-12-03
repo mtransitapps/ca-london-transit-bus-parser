@@ -226,8 +226,9 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				case "KIPPBEL1": return "2852";
 				case "KIPPADE1": return "2850";
 				case "BARKMELS": return "2789";
+				case "BARKHUR1": return "2786";
 				default:
-					throw new MTLog.Fatal("Unexpected stop code for %s!", gStop.toStringPlus());
+					throw new MTLog.Fatal("Unexpected stop code for %s!", gStop.toStringPlus(true));
 			}
 		}
 		return super.getStopCode(gStop);
