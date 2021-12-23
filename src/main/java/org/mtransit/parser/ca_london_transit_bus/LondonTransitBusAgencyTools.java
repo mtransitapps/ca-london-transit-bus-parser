@@ -227,6 +227,13 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				case "KIPPADE1": return "2850";
 				case "BARKMELS": return "2789";
 				case "BARKHUR1": return "2786";
+				case "FANSWOND": return "2835";
+				case "WELLSDA5": return "2887";
+				case "SOUTMONT": return "2878";
+				case "FANSRIC5": return "2832";
+				case "FANSRIC4": return "2831";
+				case "WELLSDA6": return "2888";
+				case "WELLSDA4": return "2886";
 				default:
 					throw new MTLog.Fatal("Unexpected stop code for %s!", gStop.toStringPlus(true));
 			}
