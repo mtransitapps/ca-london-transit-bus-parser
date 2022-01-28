@@ -205,7 +205,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		if ("'".equals(stopCode)) {
 			stopCode = EMPTY;
 		}
-		if (stopCode.isEmpty()) {
+		if (stopCode.isEmpty() || !CharUtils.isDigitsOnly(stopCode)) {
 			//noinspection deprecation
 			final String stopId = gStop.getStopId();
 			switch (stopId.toUpperCase(Locale.ENGLISH)) {
@@ -234,6 +234,11 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				case "FANSRIC4": return "2831";
 				case "WELLSDA6": return "2888";
 				case "WELLSDA4": return "2886";
+				case "WHITBRA1": return "2898";
+				case "WHITEXE1": return "2903";
+				case "WHITEXE2": return "2904";
+				case "WHITEXE3": return "2905";
+				case "WHITEXET": return "2906";
 				default:
 					throw new MTLog.Fatal("Unexpected stop code for %s!", gStop.toStringPlus(true));
 			}
