@@ -239,6 +239,9 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				case "WHITEXE2": return "2904";
 				case "WHITEXE3": return "2905";
 				case "WHITEXET": return "2906";
+				case "WHITDOW2": return "2901";
+				case "WHITDOWE": return "2902";
+				case "WHITDOW1": return "2900";
 				default:
 					throw new MTLog.Fatal("Unexpected stop code for %s!", gStop.toStringPlus(true));
 			}
