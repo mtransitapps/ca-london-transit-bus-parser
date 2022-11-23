@@ -8,6 +8,7 @@ import org.mtransit.commons.CharUtils;
 import org.mtransit.commons.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
 import org.mtransit.parser.MTLog;
+import org.mtransit.parser.gtfs.data.GRoute;
 import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.mt.data.MAgency;
 
@@ -54,6 +55,13 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean useRouteShortNameForRouteId() {
 		return true;
+	}
+
+	@NotNull
+	@Override
+	public String getRouteShortName(@NotNull GRoute gRoute) {
+		//noinspection deprecation
+		return gRoute.getRouteId(); // use by GTFS-RT provider
 	}
 
 	@NotNull
@@ -193,14 +201,20 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		//noinspection deprecation
 		final String stopId = gStop.getStopId();
 		if (!CharUtils.isDigitsOnly(stopId)) {
-			return Integer.parseInt(getStopCode(gStop));
+			return Integer.parseInt(cleanStopCode(gStop));
 		}
-		return super.getStopId(gStop); // used by real-time API https://realtime.londontransit.ca/ // TODO GTFS-RT
+		return super.getStopId(gStop); // used (?) by real-time API https://realtime.londontransit.ca/ // TODO GTFS-RT
 	}
 
 	@NotNull
 	@Override
 	public String getStopCode(@NotNull GStop gStop) {
+		//noinspection deprecation
+		return gStop.getStopId(); // using stop ID as stop code (useful to match with GTFS real-time)
+	}
+
+	@NotNull
+	private String cleanStopCode(@NotNull GStop gStop) {
 		String stopCode = gStop.getStopCode();
 		if ("'".equals(stopCode)) {
 			stopCode = EMPTY;
@@ -209,41 +223,74 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			//noinspection deprecation
 			final String stopId = gStop.getStopId();
 			switch (stopId.toUpperCase(Locale.ENGLISH)) {
-				case "DUFFWATS": return "2836";
-				case "WELLBAS3": return "2434";
-				case "SDALNIXO": return "69"; // TODo ?
-				case "MCMAWON2": return "2001";
-				case "STACFANS": return "3838";
-				case "WESTLAM1": return "2453";
-				case "COLBCHEA": return "2796";
-				case "COLBGRO1": return "2797";
-				case "COLBSJM2": return "2801";
-				case "COLBOXFO": return "2799";
-				case "COLBSJM1": return "2800";
-				case "COLBGRO2": return "2709";
-				case "BARKMEL1": return "2788";
-				case "BARKKIPP": return "2787";
-				case "KIPPBEL1": return "2852";
-				case "KIPPADE1": return "2850";
-				case "BARKMELS": return "2789";
-				case "BARKHUR1": return "2786";
-				case "FANSWOND": return "2835";
-				case "WELLSDA5": return "2887";
-				case "SOUTMONT": return "2878";
-				case "FANSRIC5": return "2832";
-				case "FANSRIC4": return "2831";
-				case "WELLSDA6": return "2888";
-				case "WELLSDA4": return "2886";
-				case "WHITBRA1": return "2898";
-				case "WHITEXE1": return "2903";
-				case "WHITEXE2": return "2904";
-				case "WHITEXE3": return "2905";
-				case "WHITEXET": return "2906";
-				case "WHITDOW2": return "2901";
-				case "WHITDOWE": return "2902";
-				case "WHITDOW1": return "2900";
-				default:
-					throw new MTLog.Fatal("Unexpected stop code for %s!", gStop.toStringPlus(true));
+			case "DUFFWATS":
+				return "2836";
+			case "WELLBAS3":
+				return "2434";
+			case "SDALNIXO":
+				return "69"; // TODo ?
+			case "MCMAWON2":
+				return "2001";
+			case "STACFANS":
+				return "3838";
+			case "WESTLAM1":
+				return "2453";
+			case "COLBCHEA":
+				return "2796";
+			case "COLBGRO1":
+				return "2797";
+			case "COLBSJM2":
+				return "2801";
+			case "COLBOXFO":
+				return "2799";
+			case "COLBSJM1":
+				return "2800";
+			case "COLBGRO2":
+				return "2709";
+			case "BARKMEL1":
+				return "2788";
+			case "BARKKIPP":
+				return "2787";
+			case "KIPPBEL1":
+				return "2852";
+			case "KIPPADE1":
+				return "2850";
+			case "BARKMELS":
+				return "2789";
+			case "BARKHUR1":
+				return "2786";
+			case "FANSWOND":
+				return "2835";
+			case "WELLSDA5":
+				return "2887";
+			case "SOUTMONT":
+				return "2878";
+			case "FANSRIC5":
+				return "2832";
+			case "FANSRIC4":
+				return "2831";
+			case "WELLSDA6":
+				return "2888";
+			case "WELLSDA4":
+				return "2886";
+			case "WHITBRA1":
+				return "2898";
+			case "WHITEXE1":
+				return "2903";
+			case "WHITEXE2":
+				return "2904";
+			case "WHITEXE3":
+				return "2905";
+			case "WHITEXET":
+				return "2906";
+			case "WHITDOW2":
+				return "2901";
+			case "WHITDOWE":
+				return "2902";
+			case "WHITDOW1":
+				return "2900";
+			default:
+				throw new MTLog.Fatal("Unexpected stop code for %s!", gStop.toStringPlus(true));
 			}
 		}
 		return super.getStopCode(gStop);
