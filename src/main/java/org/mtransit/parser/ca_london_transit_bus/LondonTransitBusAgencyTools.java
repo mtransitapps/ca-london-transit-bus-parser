@@ -228,7 +228,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			case "WELLBAS3":
 				return "2434";
 			case "SDALNIXO":
-				return "69"; // TODo ?
+				return "69"; // TODO ?
 			case "MCMAWON2":
 				return "2001";
 			case "STACFANS":
@@ -289,6 +289,10 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				return "2902";
 			case "WHITDOW1":
 				return "2900";
+			case "PONDAIL2":
+				return "11399"; // TODO ?
+			case "KINGWEL2":
+				return "2739";
 			default:
 				throw new MTLog.Fatal("Unexpected stop code for %s!", gStop.toStringPlus(true));
 			}
