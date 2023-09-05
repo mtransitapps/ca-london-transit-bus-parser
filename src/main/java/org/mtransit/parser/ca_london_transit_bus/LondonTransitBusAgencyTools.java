@@ -17,7 +17,6 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 // https://www.londontransit.ca/open-data/
-// https://www.londontransit.ca/gtfsfeed/google_transit.zip
 public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(@NotNull String[] args) {
@@ -71,7 +70,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		return super.cleanRouteShortName(routeShortName);
 	}
 
-	private static final Pattern STARTS_WITH_ROUTE_RSN = Pattern.compile("(^route [\\d]+[\\s]?)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_ROUTE_RSN = Pattern.compile("(^route \\d+\\s?)", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public boolean defaultRouteLongNameEnabled() {
@@ -110,7 +109,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	@NotNull
 	@Override
-	public String cleanDirectionHeadsign(boolean fromStopName, @NotNull String directionHeadSign) {
+	public String cleanDirectionHeadsign(int directionId, boolean fromStopName, @NotNull String directionHeadSign) {
 		if (!fromStopName) {
 			if ("Masonville via Natural Science".equals(directionHeadSign)) { // route 34
 				return "CW via Natural Science";
@@ -118,7 +117,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 				return "CWW via Alumni Hall";
 			}
 		}
-		directionHeadSign = super.cleanDirectionHeadsign(fromStopName, directionHeadSign);
+		directionHeadSign = super.cleanDirectionHeadsign(directionId, fromStopName, directionHeadSign);
 		directionHeadSign = STARTS_WITH_LETTER.matcher(directionHeadSign).replaceAll(EMPTY);
 		return directionHeadSign;
 	}
@@ -146,7 +145,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 
 	private static final Pattern STARTS_WITH_EXPRESS_TO = Pattern.compile("(^express to )", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern STARTS_WITH_RSN = Pattern.compile("(^[\\d]+[\\s]?)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_RSN = Pattern.compile("(^\\d+\\s?)", Pattern.CASE_INSENSITIVE);
 
 	@NotNull
 	@Override
@@ -179,7 +178,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		};
 	}
 
-	private static final Pattern ENDS_WITH_STOP_CODE = Pattern.compile("( - #[\\d]*[\\w]*[']*$)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern ENDS_WITH_STOP_CODE = Pattern.compile("( - #\\d*\\w*'*$)", Pattern.CASE_INSENSITIVE);
 
 	@NotNull
 	@Override
@@ -222,80 +221,69 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 		if (stopCode.isEmpty() || !CharUtils.isDigitsOnly(stopCode)) {
 			//noinspection deprecation
 			final String stopId = gStop.getStopId();
+			// @formatter:off
 			switch (stopId.toUpperCase(Locale.ENGLISH)) {
-			case "DUFFWATS":
-				return "2836";
-			case "WELLBAS3":
-				return "2434";
-			case "SDALNIXO":
-				return "69"; // TODO ?
-			case "MCMAWON2":
-				return "2001";
-			case "STACFANS":
-				return "3838";
-			case "WESTLAM1":
-				return "2453";
-			case "COLBCHEA":
-				return "2796";
-			case "COLBGRO1":
-				return "2797";
-			case "COLBSJM2":
-				return "2801";
-			case "COLBOXFO":
-				return "2799";
-			case "COLBSJM1":
-				return "2800";
-			case "COLBGRO2":
-				return "2709";
-			case "BARKMEL1":
-				return "2788";
-			case "BARKKIPP":
-				return "2787";
-			case "KIPPBEL1":
-				return "2852";
-			case "KIPPADE1":
-				return "2850";
-			case "BARKMELS":
-				return "2789";
-			case "BARKHUR1":
-				return "2786";
-			case "FANSWOND":
-				return "2835";
-			case "WELLSDA5":
-				return "2887";
-			case "SOUTMONT":
-				return "2878";
-			case "FANSRIC5":
-				return "2832";
-			case "FANSRIC4":
-				return "2831";
-			case "WELLSDA6":
-				return "2888";
-			case "WELLSDA4":
-				return "2886";
-			case "WHITBRA1":
-				return "2898";
-			case "WHITEXE1":
-				return "2903";
-			case "WHITEXE2":
-				return "2904";
-			case "WHITEXE3":
-				return "2905";
-			case "WHITEXET":
-				return "2906";
-			case "WHITDOW2":
-				return "2901";
-			case "WHITDOWE":
-				return "2902";
-			case "WHITDOW1":
-				return "2900";
-			case "PONDAIL2":
-				return "11399"; // TODO ?
-			case "KINGWEL2":
-				return "2739";
+			case "DUFFWATS": return "2836";
+			case "WELLBAS3": return "2434";
+			case "SDALNIXO": return "69"; // Southdale at Nixon - # TODO ?
+			case "MCMAWON2": return "2001";
+			case "STACFANS": return "3838";
+			case "WESTLAM1": return "2453";
+			case "COLBCHEA": return "2796";
+			case "COLBGRO1": return "2797";
+			case "COLBSJM2": return "2801";
+			case "COLBOXFO": return "2799";
+			case "COLBSJM1": return "2800";
+			case "COLBGRO2": return "2709";
+			case "BARKMEL1": return "2788";
+			case "BARKKIPP": return "2787";
+			case "KIPPBEL1": return "2852";
+			case "KIPPADE1": return "2850";
+			case "BARKMELS": return "2789";
+			case "BARKHUR1": return "2786";
+			case "FANSWOND": return "2835";
+			case "WELLSDA5": return "2887";
+			case "SOUTMONT": return "2878";
+			case "FANSRIC5": return "2832";
+			case "FANSRIC4": return "2831";
+			case "WELLSDA6": return "2888";
+			case "WELLSDA4": return "2886";
+			case "WHITBRA1": return "2898";
+			case "WHITEXE1": return "2903";
+			case "WHITEXE2": return "2904";
+			case "WHITEXE3": return "2905";
+			case "WHITEXET": return "2906";
+			case "WHITDOW2": return "2901";
+			case "WHITDOWE": return "2902";
+			case "WHITDOW1": return "2900";
+			case "PONDAIL2": return "2915";
+			case "KINGWEL2": return "2739";
+			case "YORKTHA1": return "2170";
+			case "YORKTHA2": return "2171";
+			case "YORKWAT1": return "2172";
+			case "YORKCOL1": return "2157";
+			case "YORKMAI1": return "2163";
+			case "YORKWIL1": return "2175";
+			case "YORKADE1": return "2154";
+			case "YORKLYL1": return "2161";
+			case "YORKLYL2": return "2162";
+			case "YORKREC1": return "2165";
+			case "YORKREC2": return "2166";
+			case "YORKADE2": return "2155";
+			case "YORKWIL2": return "2176";
+			case "YORKMAI2": return "2164";
+			case "YORKCOL2": return "2158";
+			case "YORKWAT2": return "2173";
+			case "WOODRIVE": return "2144";
+			case "WOODEDI1": return "2142";
+			case "WOODEDI2": return "2143";
+			case "WOODTOZ2": return "2146";
+			case "WHARMOR2": return "10001"; // TODO Wharncliffe at Morgan NS SB - # ???
+			case "YXUTERM" : return "2179";
 			default:
 				throw new MTLog.Fatal("Unexpected stop code for %s!", gStop.toStringPlus(true));
 			}
+			// @formatter:on
 		}
 		return super.getStopCode(gStop);
 	}
