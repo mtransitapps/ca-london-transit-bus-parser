@@ -279,6 +279,7 @@ public class LondonTransitBusAgencyTools extends DefaultAgencyTools {
 			case "WOODEDI2": return "2143";
 			case "WOODTOZ2": return "2146";
 			case "WHARMOR2": return "10001"; // TODO Wharncliffe at Morgan NS SB - # ???
+			case "WATEDUN1": return "10002"; // FIXME
 			case "YXUTERM" : return "2179";
 			default:
 				throw new MTLog.Fatal("Unexpected stop code for %s!", gStop.toStringPlus(true));
